@@ -1,2 +1,0 @@
-# Scribe
-Created with CodeSandbox
