@@ -24,9 +24,9 @@ let controller = {
     },
     updateTimeline: function(req, res) {
         db.Timeline.findByIdAndUpdate(req.params.id, req.body)
-        .then(dbTimeline => res.json(dbTimeline))
-        .catch(err => res.status(422).json(err))
-    }
+            .then(dbTimeline => res.json(dbTimeline))
+            .catch(err => res.status(422).json(err))
+    },
  }
 
  module.exports = controller; 

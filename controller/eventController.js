@@ -24,6 +24,12 @@ let controller = {
         db.Event.findByIdAndUpdate(req.params.id, req.body)
         .then(dbEvent => res.json(dbEvent))
         .catch(err => res.status(422).json(err))
+    },
+    pushEvent: function(req, res) {
+        db.Event.findByIdAndUpdate(req.params.id, req.body)
+            .then(dbEvent =>  {
+                return db.Timeline.findOneAndUpdate({name: req.params.session }, { $push: { events: dbEvent._id } }, { new: true })
+            })
     }
  }
 

@@ -18,5 +18,7 @@ router
   .get(eventController.readOne)
   .put(eventController.updateEvent)
   .delete(eventController.deleteEvent);
-
+router
+  .route('/:id/:session')
+  .put(eventController.pushEvent)
   module.exports = router;

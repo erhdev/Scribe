@@ -1,17 +1,22 @@
+/*
+middle block of the api route pyramid
+exports into /routes/index.js
+*/
 const path = require("path");
 const router = require("express").Router();
-const bookRoutes = require("./books");
-const googleRoutes = require("./google");
+const eventRoutes = require("./event");
+const timelineRoutes = require("./timeline");
 
-// Book routes
-router.use("/books", bookRoutes);
-
-// Google Routes
-router.use("/google", googleRoutes);
+/*
+layers on the event and timeline addresses to the 
+routes
+*/
+router.use("/event", eventRoutes);
+router.use("/timeline", timelineRoutes);
 
 // For anything else, render the html page
 router.use(function(req, res) {
-  res.sendFile(path.join(__dirname, "../../client/build/index.html"));
+  res.sendFile(path.join(__dirname, "../../test/index.html"));
 });
 
 module.exports = router;
