@@ -8,8 +8,9 @@ const UserSchema = new Schema({
         required: true,
         unique: true,
     },
-    events: [{type: Schema.Types.ObjectId, ref: "Event"}]
+    events: [{type: Schema.Types.ObjectId, ref: "Event"}],
+    timelines: [{type: Schema.Types.ObjectId, ref: "Timeline"}]
 });
 
-var Event = mongoose.model('Event', EventSchema)
-module.exports = Event
+var User = mongoose.model('User', UserSchema)
+module.exports = User;

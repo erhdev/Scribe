@@ -6,17 +6,21 @@ const app = express();
 // Define middleware here
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
-// Serve up static assets (usually on heroku)
-if (process.env.NODE_ENV === "production") {
-  app.use(express.static("client/build"));
-}
 
-// Define API routes here
+// static assets on LOCK
+app.use(express.static("test"))
 
-// Send every other request to the React app
-// Define any API routes before this runs
-app.get("*", (req, res) => {
-  res.sendFile(path.join(__dirname, "./client/build/index.html"));
+/* 
+   require mongoose,
+   connect to database
+*/
+const mongoose = require("mongoose");
+mongoose.connect("mongodb://localhost/scribe", { useNewUrlParser: true });
+
+app.use(routes);
+
+app.get("/home", (req, res) => {
+  res.sendFile(path.join(__dirname, "./test/index.html"));
 });
 
 app.listen(PORT, () => {
