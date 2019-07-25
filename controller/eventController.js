@@ -32,6 +32,12 @@ let controller = {
                 console.log(dbEvent);
                 return db.Timeline.findOneAndUpdate({name: req.params.session }, { $push: { events: dbEvent._id } }, { new: true })
             })
+            .then(dbEvent => {
+                for (let i = 0; i < dbEvent.mutualExclusives.length; i++) {
+                    db.Event.findByIdAndDelete(dbEvent.mutualExclusives[i]);
+                }
+                
+            })
         // include logic for detecting and deleting mutualExclusives and for pushing info here
     }
  }
