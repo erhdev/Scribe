@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Scribe</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.7.5/css/bulma.min.css">
+    <script defer src="https://use.fontawesome.com/releases/v5.3.1/js/all.js"></script>
+  </head>
+  <body>
+  <section class="section">
+    <div class="container">
+      <h1 class="title">
+        Welcome to the Scribe MVP(os).
+      </h1>
+    </div>
+    <div class='container'>
+        <form action="/submit" method="post">
+            <h2>Enter an Event!</h2>
+              <input type="text" name="title" placeholder="Event"><br>
+              <textarea type="text" name="body" placeholder="Describe The Event"></textarea><br>
+        
+              <input type="submit"> <br>
+              <a href="/api/events">All Events</a> <br>
+              <a href="/api/timelines/">All Timelines (Like Dr. Strange)</a> <br>
+              <a href="/api/events"></a> <br>
+        </form>
+    </div>
+  </section>
+  </body>
+</html>
