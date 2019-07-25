@@ -18,11 +18,11 @@ app.use(express.static("test"))
 const mongoose = require("mongoose");
 mongoose.connect("mongodb://localhost/scribe", { useNewUrlParser: true });
 
+/*
+  listen for pings on the routes defined in the routes folder
+*/
 app.use(routes);
 
-app.get("/home", (req, res) => {
-  res.sendFile(path.join(__dirname, "./test/index.html"));
-});
 
 app.listen(PORT, () => {
   console.log(`🌎 ==> API server now on port ${PORT}!`);
