@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Hello Bulma!</title>
+    <title>Scribe</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.7.5/css/bulma.min.css">
     <script defer src="https://use.fontawesome.com/releases/v5.3.1/js/all.js"></script>
   </head>
@@ -11,21 +11,20 @@
   <section class="section">
     <div class="container">
       <h1 class="title">
-        Hello World
+        Welcome to the Scribe MVP.
       </h1>
     </div>
     <div class='container'>
         <form action="/submit" method="post">
-            <h1>Hi User!</h1>
             <h2>Enter an Event!</h2>
-              <input type="text" name="title" placeholder="Title">
-              <textarea type="text" name="body" placeholder="Write Note Here"></textarea>
+              <input type="text" name="title" placeholder="Event"><br>
+              <textarea type="text" name="body" placeholder="Describe The Event"></textarea><br>
         
-              <input type="submit">
-              <a href="/events">See your notes!</a>
-              <a href="/user">See your profile!</a>
-              <a href="/populateduser">See your profile, populated with notes!</a>
-            </form>
+              <input type="submit"> <br>
+              <a href="/api/events">All Events</a> <br>
+              <a href="/api/timelines">All Timelines (Like Dr. Strange)</a> <br>
+              <a href=""></a> <br>
+        </form>
     </div>
   </section>
   </body>

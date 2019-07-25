@@ -8,6 +8,7 @@ let controller = {
     },
     deleteEvent: function(req, res) {
         db.Event.findByIdAndDelete(req.params.id)
+            .then(db => res.json(db))
             .catch(err => res.status(422).json(err))
     },
     readOne: function(req, res) {
