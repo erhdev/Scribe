@@ -30,6 +30,7 @@ let controller = {
             .then(dbEvent =>  {
                 return db.Timeline.findOneAndUpdate({name: req.params.session }, { $push: { events: dbEvent._id } }, { new: true })
             })
+        // include logic for detecting and deleting mutualExclusives and for pushing info here
     }
  }
 
