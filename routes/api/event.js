@@ -18,7 +18,10 @@ router
   .get(eventController.readOne)
   .put(eventController.updateEvent)
   .delete(eventController.deleteEvent);
+
+// includes the additional "session" parameter to include relevant information
 router
   .route('/:id/:session')
-  .put(eventController.pushEvent)
-  module.exports = router;
+  .put(eventController.pushEvent);
+
+module.exports = router;
