@@ -7,6 +7,7 @@ const TimelineSchema = new Schema({
         type: String,
         required: true
     },
+    description: String,
     events: [{type: Schema.Types.ObjectId, ref: "Event"}],
 });
 
