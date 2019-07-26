@@ -13,15 +13,13 @@ router.route("/")
   .post(eventController.createEvent);
 
 // Matches with "/api/event/:id"
-router
-  .route("/:id")
+router.route("/:id")
   .get(eventController.readOne)
   .put(eventController.updateEvent)
   .delete(eventController.deleteEvent);
 
 // includes the additional "session" parameter to include relevant information
-router
-  .route('/:id/:session')
+router.route('/:id/:session')
   .put(eventController.pushEvent);
 
 module.exports = router;
