@@ -36,7 +36,9 @@ let controller = {
                 for (let i = 0; i < dbEvent.mutualExclusives.length; i++) {
                     db.Event.findByIdAndDelete(dbEvent.mutualExclusives[i]);
                 }
-                
+                for (let i = 0; dbEvent.mutualExclusives.length; i++) {
+                    // logic for populating events goes here
+                }
             })
         // include logic for detecting and deleting mutualExclusives and for pushing info here
     }
