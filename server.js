@@ -9,7 +9,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
 // static assets on LOCK
-app.use(express.static("test"))
+//app.use(express.static("test"))
 
 /* 
    require mongoose,

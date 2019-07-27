@@ -1,5 +1,7 @@
 import React from "react";
 import eventAPI from "../utils/eventAPI";
+import formStuff, { basicInput, textArea } from "./infrastructure/formStuff";
+import tileStuff, { ancestorTile, contentTile } from "./infrastructure/tileStuff";
 
 class EventForm extends React.Component {
   constructor(props) {
@@ -62,8 +64,20 @@ class EventForm extends React.Component {
   */
 
   render() {
+    console.log(this.state.events)
     return (
-
+      <ancestorTile>
+        <contentTile seniority box>
+          <contentTile box>
+            <basicInput name="Title" placeholder="The Party Talks to the King"></basicInput>
+          </contentTile>
+          <contentTile box>
+            <textArea name="Notes" placeholder="What else do you need to know about the event?"></textArea>
+          </contentTile>
+        </contentTile>
+      </ancestorTile>
     )
   }
 }
+
+export default EventForm;
