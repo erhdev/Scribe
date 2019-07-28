@@ -1,17 +1,17 @@
 import React from "react";
 
-export function contentTile(seniority, vertical, box, children) {
-    return <div className={`tile ${seniority? "is-parent" : "is-child"} 
-                                 ${vertical? "is-vertical" : ""} 
-                                 ${box? "box" : ""}`}
+export function ContentTile(props) {
+    return <div className={`tile ${props.seniority? "is-parent" : "is-child"} 
+                                 ${props.vertical? "is-vertical" : ""} 
+                                 ${props.box? "box" : ""}`}
                                  >
-                                 
-                                 {children}
+                  {props.children}               
+                                
             </div>
 }
-export function ancestorTile(children) {
-     return <div className={`tile is-ancestor`}>{children}</div>
+export function AncestorTile(props) {
+    return <div className={`tile is-ancestor`}>{props.children}</div>
 }
-export function nakedTile(children) {
-    return <div className={`tile`}>{children}</div>
+export function NakedTile() {
+    return <div className={`tile`}></div>
 }

@@ -1,17 +1,17 @@
 import React from "react";
 import eventAPI from "../utils/eventAPI";
-import formStuff, { basicInput, textArea } from "./infrastructure/formStuff";
-import tileStuff, { ancestorTile, contentTile } from "./infrastructure/tileStuff";
+import { BasicInput, TextArea } from "./infrastructure/formStuff";
+import { AncestorTile, ContentTile } from "./infrastructure/tileStuff";
 
 class EventForm extends React.Component {
   constructor(props) {
     super(props);
 
-    this.handleChange = this.handleChange.bind(this);
+    this.handleInputChange = this.handleInputChange.bind(this);
     this.state = {
-     events = [],
-     info = [],
-     eventData = {
+     events: [],
+     info: [],
+     eventData: {
        title: "",
        body: "",
        assigned: false,
@@ -58,6 +58,7 @@ class EventForm extends React.Component {
         .catch(err => console.log(err));
     }
   };
+
   /*
     Event Form input and submit functions ready to go
     Need to find a way to add mutualExclusives and assocInfo
@@ -66,16 +67,16 @@ class EventForm extends React.Component {
   render() {
     console.log(this.state.events)
     return (
-      <ancestorTile>
-        <contentTile seniority box>
-          <contentTile box>
-            <basicInput name="Title" placeholder="The Party Talks to the King"></basicInput>
-          </contentTile>
-          <contentTile box>
-            <textArea name="Notes" placeholder="What else do you need to know about the event?"></textArea>
-          </contentTile>
-        </contentTile>
-      </ancestorTile>
+      <AncestorTile>
+        <ContentTile seniority box>
+          <ContentTile box>
+            <BasicInput name="Title" placeholder="The Party Talks to the King"></BasicInput>
+          </ContentTile>
+          <ContentTile box>
+            <TextArea name="Notes" placeholder="What else do you need to know about the event?"></TextArea>
+          </ContentTile>
+        </ContentTile>
+      </AncestorTile>
     )
   }
 }
