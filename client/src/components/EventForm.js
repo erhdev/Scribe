@@ -2,6 +2,7 @@ import React from "react";
 import eventAPI from "../utils/eventAPI";
 import { BasicInput, TextArea } from "./infrastructure/formStuff";
 import { AncestorTile, ContentTile } from "./infrastructure/tileStuff";
+import { Button } from "./infrastructure/buttStuff";
 
 class EventForm extends React.Component {
   constructor(props) {
@@ -11,18 +12,17 @@ class EventForm extends React.Component {
     this.state = {
      events: [],
      info: [],
-     eventData: {
-       title: "",
-       body: "",
-       assigned: false,
-       mutualExclusives: [],
-       assocInfo: []
-     }
+     title: "",
+     body: "",
+     assigned: false,
+     mutualExclusives: [],
+     assocInfo: []
     };
   };
   componentDidMount() {
     this.loadEvents();
     this.loadInfo();
+    console.log(this.state.events)
   };
   loadEvents() {
     eventAPI.readAllEvents()
@@ -39,6 +39,7 @@ class EventForm extends React.Component {
      */
   };
   handleInputChange = event => {
+    console.log("onChange functional")
     const { name, value } = event.target;
     this.setState({
       [name]: value
@@ -46,17 +47,21 @@ class EventForm extends React.Component {
   };
   handleFormSubmit = event => {
     event.preventDefault();
-    if (this.state.title && this.state.body) {
-      eventAPI.createEvent({
-        title: this.state.title,
-        body: this.state.body,
-        assigned: this.state.assigned,
-        mutualExclusives: this.state.mutualExclusives,
-        assocInfo: this.state.assocInfo
-      })
-        .then(res => this.loadEvents())
-        .catch(err => console.log(err));
+    console.log()
+    const eventData = {
+      title: this.state.title,
+      body: this.state.body,
+      assigned: this.state.assigned,
+      mutualExclusives: this.state.mutualExclusives,
+      assocInfo: this.state.assocInfo
     }
+    console.log(eventData)
+      eventAPI.createEvent({
+       eventData
+      })
+        .then(this.loadEvents())
+        .catch(err => console.log(err));
+    
   };
 
   /*
@@ -65,16 +70,31 @@ class EventForm extends React.Component {
   */
 
   render() {
-    console.log(this.state.events)
     return (
       <AncestorTile>
         <ContentTile seniority box>
           <ContentTile box>
-            <BasicInput name="Title" placeholder="The Party Talks to the King"></BasicInput>
+            <BasicInput 
+            value={this.state.title}
+            onChange={this.handleInputChange}
+            name="title"
+            display="Title"
+            placeholder="The Party Talks to the King"
+            />
           </ContentTile>
           <ContentTile box>
-            <TextArea name="Notes" placeholder="What else do you need to know about the event?"></TextArea>
+            <TextArea 
+            value={this.state.body}
+            onChange={this.handleInputChange}
+            name="body" 
+            display="Body"
+            placeholder="What else do you need to know about the event?"
+            />
           </ContentTile>
+          <Button 
+          name={"Submit"}
+          onClick={this.handleFormSubmit}
+          />
         </ContentTile>
       </AncestorTile>
     )

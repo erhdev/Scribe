@@ -12,6 +12,6 @@ export function ContentTile(props) {
 export function AncestorTile(props) {
     return <div className={`tile is-ancestor`}>{props.children}</div>
 }
-export function NakedTile() {
-    return <div className={`tile`}></div>
+export function NakedTile(props) {
+    return <div className={`tile`}>{props.children}</div>
 }

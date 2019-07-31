@@ -16,7 +16,7 @@ app.use(express.json());
    connect to database
 */
 const mongoose = require("mongoose");
-mongoose.connect(process.env.MONGODB_URI || "mongodb://user2:beholder2@ds353007.mlab.com:53007/heroku_q9klf87d", { useNewUrlParser: true });
+mongoose.connect(process.env.MONGODB_URI || "mongodb://localhost:27017/scribe", { useNewUrlParser: true });
 
 /*
   listen for pings on the routes defined in the routes folder
