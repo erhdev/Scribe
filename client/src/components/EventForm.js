@@ -21,10 +21,9 @@ class EventForm extends React.Component {
      assocInfo: []
     };
   };
-  async componentDidMount() {
-    await this.loadEvents();
-    await this.loadInfo();
-    this.createEventList();
+  componentWillMount() {
+    this.loadEvents();
+    this.loadInfo();
     this.setState({isLoading: false})
   };
   loadEvents() {
@@ -60,17 +59,23 @@ class EventForm extends React.Component {
       assocInfo: this.state.assocInfo
     }
     console.log(eventData)
-      eventAPI.createEvent({
+      eventAPI.createEvent(
        eventData
-      })
+      )
         .then(this.loadEvents())
         .catch(err => console.log(err));
-    
+    this.setState({
+      title: "",
+      body: "",
+      assigned: false,
+      mutualExclusives: [],
+      assocInfo: []
+    })
   };
   eventBlockOnClick = event => {
-    const { key } = event.target;
-    console.log(key)
-    this.setState({ mutualExclusives: [...this.state.mutualExclusives, key] })
+    const { id } = event.target;
+    console.log(id)
+    this.setState({ mutualExclusives: [...this.state.mutualExclusives, id] })
     console.log(this.state.mutualExclusives)
   }
   createEventList() {
@@ -78,6 +83,7 @@ class EventForm extends React.Component {
     let mutualExItems = events.map((event) =>
     <EventBlock 
       title={event.title}
+      id={event._id}
       key={event._id}
       onClick={this.eventBlockOnClick}        
     />)
@@ -106,14 +112,15 @@ class EventForm extends React.Component {
 
   render() {
     const {events, isLoading} = this.state;
-    
+    const eventsFound = this.createEventList();
+    console.log(events[0])
     let noEvents = false;
     if (events.length === 0) {
       noEvents = true;
     }
     const noEventsFound = <p className={`title`}> You have no events! </p>
     const loadingSymbol = <div> <progress className={'progress is-info'} max="100">60%</progress> </div>
-    let renderEvents = noEvents? noEventsFound : this.eventsFound;
+    let renderEvents = noEvents? noEventsFound : eventsFound;
     let loading = isLoading? loadingSymbol : renderEvents;
     
     return (

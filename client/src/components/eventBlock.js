@@ -9,6 +9,7 @@ export function EventBlock(props) {
                 className={`button level-item ${props.isActive}`} 
                 onClick={props.onClick} 
                 key={props._id}
+                id={props._id}
                 >
                 {props.activated}
                 </div>
