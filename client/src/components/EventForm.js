@@ -4,6 +4,7 @@ import { AncestorTile, ContentTile } from "./infrastructure/tileStuff";
 import { Button } from "./infrastructure/buttStuff";
 import { EventList } from "./EventList";
 import { InputForm } from "./inputForm";
+import { InfoEventToggleDisplay } from "./infoEventSwitch";
 
 class EventForm extends React.Component {
   constructor(props) {
@@ -11,6 +12,7 @@ class EventForm extends React.Component {
     this.handleInputChange = this.handleInputChange.bind(this);
     this.state = {
      isLoading: true,
+     infoToggled: false,
      events: [],
      info: [],
      title: "",
@@ -80,15 +82,30 @@ class EventForm extends React.Component {
     console.log(className)
     
   };
-
+  toggleInfo = event => {
+    if(!this.state.infoToggled) {
+      this.setState({infoToggled: true})
+    } else {this.setState({infoToggled: false})}
+  }
   /*
     Event Form input and submit functions ready to go
     Need to find a way to add mutualExclusives and assocInfo
   */
   render() {
+    const eventList =           
+    <EventList
+    events = {this.state.events}
+    onClick = {this.eventBlockOnClick}
+    /> 
+    const infoList =     
+    <InfoList
+    info = {this.state.info}
+    onClick = {this.infoBlockOnClick}
+    /> 
     const noEventsFound = <p className={`title`}> You have no events! </p>
     const loadingSymbol = <div> <progress className={'progress is-info'} max="100">60%</progress> </div>
     const loadingOrNone = this.state.isLoading?  loadingSymbol : noEventsFound
+    const eventsOrInfo = this.state.infoToggled? eventList : infoList;
         
     return (
       <AncestorTile>
@@ -101,22 +118,15 @@ class EventForm extends React.Component {
           <ContentTile
           box
           //display={"List of Events"}
-          children={
-            
-            
-            
-            
-            this.state.events.length? 
-            <EventList
-            events = {this.state.events}
-            onClick = {this.eventBlockOnClick}
-            mutualExclusives = {this.mutualExclusives}
-            /> 
-            :
-            loadingOrNone
-          }
+
           >
-           
+           <InfoEventToggleDisplay
+           onClick={this.toggleInfo}
+           children={this.state.events.length? 
+            eventsOrInfo
+            :
+            loadingOrNone}
+           />
           </ContentTile>
           <Button 
           name={"Submit"}
