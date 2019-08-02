@@ -1,10 +1,9 @@
 import React from "react";
 import eventAPI from "../utils/eventAPI";
-import { BasicInput, TextArea } from "./infrastructure/formStuff";
 import { AncestorTile, ContentTile } from "./infrastructure/tileStuff";
 import { Button } from "./infrastructure/buttStuff";
-import { EventBlock} from "./eventBlock";
 import { EventList } from "./EventList";
+import { InputForm } from "./inputForm";
 
 class EventForm extends React.Component {
   constructor(props) {
@@ -22,12 +21,17 @@ class EventForm extends React.Component {
     };
   };
   componentDidMount() {
+    setTimeout(() => {(
+      this.setState({isLoading : true})
+    )}, 
+    2000);
     this.loadEvents();
     this.loadInfo();
   };
   loadEvents() {
     eventAPI.readAllEvents()
       .then((results) => {
+        results.data.reverse();
         this.setState({events: results.data})
         console.log(this.state.events)
       })
@@ -43,7 +47,6 @@ class EventForm extends React.Component {
   };
   handleInputChange = event => {
     const { name, value } = event.target;
-    console.log(value)
     this.setState({
       [name]: value
     });
@@ -57,7 +60,6 @@ class EventForm extends React.Component {
       mutualExclusives: this.state.mutualExclusives,
       assocInfo: this.state.assocInfo
     }
-    console.log(eventData)
       eventAPI.createEvent(
        eventData
       )
@@ -72,7 +74,10 @@ class EventForm extends React.Component {
     })
   };
   eventBlockOnClick = event => {
-    this.setState({ mutualExclusives: [...this.state.mutualExclusives, event.target.dataset.tag] })
+    const eBlock = event.target
+    let className = eBlock.className
+    this.setState({ mutualExclusives: [...this.state.mutualExclusives, eBlock.dataset.tag] })
+    console.log(className)
     
   };
 
@@ -81,42 +86,34 @@ class EventForm extends React.Component {
     Need to find a way to add mutualExclusives and assocInfo
   */
   render() {
-
     const noEventsFound = <p className={`title`}> You have no events! </p>
     const loadingSymbol = <div> <progress className={'progress is-info'} max="100">60%</progress> </div>
-    
+    const loadingOrNone = this.state.isLoading?  loadingSymbol : noEventsFound
         
     return (
       <AncestorTile>
         <ContentTile seniority box vertical>
-          <ContentTile box>
-            <BasicInput 
-            value={this.state.title}
-            onChange={this.handleInputChange}
-            name="title"
-            display="Title"
-            placeholder="The Party Talks to the King"
-            />
-          </ContentTile>
-          <ContentTile box>
-            <TextArea 
-            value={this.state.body}
-            onChange={this.handleInputChange}
-            name="body" 
-            display="Body"
-            placeholder="What else do you need to know about the event?"
-            />
-          </ContentTile>
+          <InputForm
+          title = {this.state.title}
+          body = {this.state.body}
+          onChange = {this.handleInputChange}
+          />
           <ContentTile
           box
           //display={"List of Events"}
-          children={this.state.events.length? 
+          children={
+            
+            
+            
+            
+            this.state.events.length? 
             <EventList
             events = {this.state.events}
             onClick = {this.eventBlockOnClick}
+            mutualExclusives = {this.mutualExclusives}
             /> 
             :
-            loadingSymbol
+            loadingOrNone
           }
           >
            
