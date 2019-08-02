@@ -9,7 +9,6 @@ import { EventList } from "./EventList";
 class EventForm extends React.Component {
   constructor(props) {
     super(props);
-
     this.handleInputChange = this.handleInputChange.bind(this);
     this.state = {
      isLoading: true,
@@ -25,7 +24,6 @@ class EventForm extends React.Component {
   componentDidMount() {
     this.loadEvents();
     this.loadInfo();
-    this.setState({isLoading: false})
   };
   loadEvents() {
     eventAPI.readAllEvents()
@@ -45,6 +43,7 @@ class EventForm extends React.Component {
   };
   handleInputChange = event => {
     const { name, value } = event.target;
+    console.log(value)
     this.setState({
       [name]: value
     });
@@ -73,9 +72,9 @@ class EventForm extends React.Component {
     })
   };
   eventBlockOnClick = event => {
-    const { id } = event.target;
-    console.log(id)
-    this.setState({ mutualExclusives: [...this.state.mutualExclusives, id] })
+    console.log(typeof event.target)
+    const { name } = event.target
+    //this.setState({ mutualExclusives: [...this.state.mutualExclusives, datatag] })
     console.log(this.state.mutualExclusives)
   };
 
@@ -113,10 +112,16 @@ class EventForm extends React.Component {
           <ContentTile
           box
           //display={"List of Events"}
-          >
+          children={this.state.events.length? 
             <EventList
             events = {this.state.events}
-            />
+            onClick = {this.eventBlockOnClick}
+            /> 
+            :
+            loadingSymbol
+          }
+          >
+           
           </ContentTile>
           <Button 
           name={"Submit"}
