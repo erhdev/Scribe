@@ -4,6 +4,7 @@ import { BasicInput, TextArea } from "./infrastructure/formStuff";
 import { AncestorTile, ContentTile } from "./infrastructure/tileStuff";
 import { Button } from "./infrastructure/buttStuff";
 import { EventBlock} from "./eventBlock";
+import { EventList } from "./EventList";
 
 class EventForm extends React.Component {
   constructor(props) {
@@ -21,17 +22,18 @@ class EventForm extends React.Component {
      assocInfo: []
     };
   };
-  componentWillMount() {
+  componentDidMount() {
     this.loadEvents();
     this.loadInfo();
     this.setState({isLoading: false})
   };
   loadEvents() {
     eventAPI.readAllEvents()
-      .then(results => {
-          this.setState({events: results.data})
+      .then((results) => {
+        this.setState({events: results.data})
+        console.log(this.state.events)
       })
-      console.log(this.state.events)
+      .catch(err => console.log(err));
   };
   loadInfo() {
     /*
@@ -42,9 +44,7 @@ class EventForm extends React.Component {
      */
   };
   handleInputChange = event => {
-    console.log("onChange functional")
     const { name, value } = event.target;
-    console.log(name)
     this.setState({
       [name]: value
     });
@@ -77,52 +77,18 @@ class EventForm extends React.Component {
     console.log(id)
     this.setState({ mutualExclusives: [...this.state.mutualExclusives, id] })
     console.log(this.state.mutualExclusives)
-  }
-  createEventList() {
-    const { events } = this.state
-    let mutualExItems = events.map((event) =>
-    <EventBlock 
-      title={event.title}
-      id={event._id}
-      key={event._id}
-      onClick={this.eventBlockOnClick}        
-    />)
-    let mutualExItems1 = mutualExItems.splice(0, (mutualExItems.length / 3));
-    let mutualExItems2 = mutualExItems.splice(0, (mutualExItems.length / 2));
-    let mutualExItems3 = mutualExItems.splice(0, mutualExItems.length);
-    const eventsFound =  
-    <div>
-    <ContentTile
-    children={<div className={'columns'}>{mutualExItems1}</div>}
-    />
-    <ContentTile
-    children={<div className={'columns'}>{mutualExItems2}</div>}
-    />
-    <ContentTile
+  };
 
-    children={<div className={'columns'}>{mutualExItems3}</div>}
-    />
-    </div> 
-    return eventsFound
-  }
   /*
     Event Form input and submit functions ready to go
     Need to find a way to add mutualExclusives and assocInfo
   */
-
   render() {
-    const {events, isLoading} = this.state;
-    const eventsFound = this.createEventList();
-    console.log(events[0])
-    let noEvents = false;
-    if (events.length === 0) {
-      noEvents = true;
-    }
+
     const noEventsFound = <p className={`title`}> You have no events! </p>
     const loadingSymbol = <div> <progress className={'progress is-info'} max="100">60%</progress> </div>
-    let renderEvents = noEvents? noEventsFound : eventsFound;
-    let loading = isLoading? loadingSymbol : renderEvents;
-    
+
+        
     return (
       <AncestorTile>
         <ContentTile seniority box vertical>
@@ -146,8 +112,11 @@ class EventForm extends React.Component {
           </ContentTile>
           <ContentTile
           box
-          children={loading}
+          //display={"List of Events"}
           >
+            <EventList
+            events = {this.state.events}
+            />
           </ContentTile>
           <Button 
           name={"Submit"}

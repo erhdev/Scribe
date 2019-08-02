@@ -8,10 +8,10 @@ export function EventBlock(props) {
                 <div 
                 className={`button level-item ${props.isActive}`} 
                 onClick={props.onClick} 
-                key={props._id}
-                id={props._id}
+                accessKey={props._id}
+                ay={props._id}
                 >
-                {props.activated}
+                Add to Mutual Exclusives
                 </div>
             </div>
             </div>
