@@ -72,10 +72,8 @@ class EventForm extends React.Component {
     })
   };
   eventBlockOnClick = event => {
-    console.log(typeof event.target)
-    const { name } = event.target
-    //this.setState({ mutualExclusives: [...this.state.mutualExclusives, datatag] })
-    console.log(this.state.mutualExclusives)
+    this.setState({ mutualExclusives: [...this.state.mutualExclusives, event.target.dataset.tag] })
+    
   };
 
   /*
@@ -86,7 +84,7 @@ class EventForm extends React.Component {
 
     const noEventsFound = <p className={`title`}> You have no events! </p>
     const loadingSymbol = <div> <progress className={'progress is-info'} max="100">60%</progress> </div>
-
+    
         
     return (
       <AncestorTile>
