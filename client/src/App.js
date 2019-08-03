@@ -1,11 +1,13 @@
 import React from 'react';
-import { BrowserRouter as Router, Route, Link } from "react-router-dom";
 import './css/App.css';
+import "./css/App.sass"
+import { BrowserRouter as Router, Route, Link } from "react-router-dom";
 import Dashboard from "./pages/Dashboard";
 import Login from "./pages/Login";
 import SessionView from "./pages/SessionView";
 import EventForm from "./components/EventForm"
-function App() {
+
+function App(props) {
   return (
   /**
    * 
@@ -18,7 +20,9 @@ function App() {
       </div>
     </Router> 
     */ 
-   <EventForm></EventForm>
+   <Dashboard
+    ModalNode = {props.ModalNode}
+   ></Dashboard>
   );
 }
 

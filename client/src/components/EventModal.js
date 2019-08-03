@@ -1,9 +1,10 @@
 import React from "react";
 import EventForm from "./EventForm";
 
-export function EventModal() {
+export function EventModal(props) {
     return (
-        <div className="modal">
+        
+        <div className={`modal is-active`} >
         <div className="modal-background"></div>
         <div className="modal-card">
           <header className="modal-card-head">

@@ -9,11 +9,9 @@ const InfoSchema = new Schema({
     },
     body: String,
     assigned: Boolean,
-    mutualExclusives: [{
-        type: Schema.Types.ObjectId, 
-        ref: "Info"
-    }],
-});
+    },
+    {collection: "info"}
+);
 
 var Info = mongoose.model('Info', InfoSchema)
 module.exports = Info
