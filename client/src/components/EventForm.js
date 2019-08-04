@@ -3,16 +3,18 @@ import eventAPI from "../utils/eventAPI";
 import infoAPI from "../utils/infoAPI";
 import { AncestorTile, ContentTile } from "./infrastructure/tileStuff";
 import { Button } from "./infrastructure/buttStuff";
-import { DataList } from "./DataList";
+import { DataList } from "./DataStuff/DataList";
 import { InputForm } from "./InputForm";
 import { DualDisplayToggle } from "./DualDisplayToggle";
-
+import { Level } from "../components/infrastructure/level";
+ 
 
 class EventForm extends React.Component {
   constructor(props) {
     super(props);
     this.handleInputChange = this.handleInputChange.bind(this);
     this.toggleInfo = this.toggleInfo.bind(this);
+    this.clearForm = this.clearForm.bind(this)
     this.state = {
       isLoading: true,
       infoToggled: false,
@@ -59,6 +61,15 @@ class EventForm extends React.Component {
       [name]: value
     });
   };
+  clearForm() {
+    this.setState({
+      title: "",
+      body: "",
+      assigned: false,
+      mutualExclusives: [],
+      assocInfo: []
+    })
+  }
   handleFormSubmit = event => {
     event.preventDefault();
     const eventData = {
@@ -73,47 +84,67 @@ class EventForm extends React.Component {
     )
       .then(this.loadEvents())
       .catch(err => console.log(err));
-    this.setState({
-      title: "",
-      body: "",
-      assigned: false,
-      mutualExclusives: [],
-      assocInfo: []
-    })
-  };
+      this.clearForm();
+  };  
   eventBlockOnClick = event => {
-    const eBlock = event.target
-    let className = eBlock.className
-    this.setState({ mutualExclusives: [...this.state.mutualExclusives, eBlock.dataset.tag] })
-    console.log(className)
+    // on a datablock click, checks the datatag passed to the datablock,
+    // looks for it in the mutualEx array, and if it finds it deletes it from the array
+    let datatag = event.currentTarget.dataset.tag
+    let exclusives = this.state.mutualExclusives
+    let checkExclusives = exclusives.find(event => datatag === event)
+    function checkDatatag(datatag) {
+        if (checkExclusives == datatag) {
+          return false; 
+        } else { return true;}
+      }
+   if (checkExclusives === datatag) {
+      this.setState({
+        mutualExclusives: exclusives.filter(checkDatatag)
+      })
+    } else {
+      this.setState({ mutualExclusives: [...exclusives, datatag] })
+    }
 
   };
   infoBlockOnClick = event => {
-    const eBlock = event.target
-    let className = eBlock.className
-    this.setState({ assocInfo: [...this.state.assocInfo, eBlock.dataset.tag] })
-    console.log(className);
+    // on a datablock click, checks the datatag passed to the datablock,
+    // looks for it in the mutualEx array, and if it finds it deletes it from the array
+    let datatag = event.currentTarget.dataset.tag
+    let info = this.state.assocInfo
+    let checkExclusives = info.find(event => datatag === event)
+    function checkDatatag(datatag) {
+        if (checkExclusives == datatag) {
+          return false; 
+        } else { return true;}
+      }
+   if (checkExclusives === datatag) {
+      this.setState({
+        assocInfo: info.filter(checkDatatag)
+      })
+    } else {
+      this.setState({ assocInfo: [...info, datatag] })
+    }
+
   };
   toggleInfo() {
-    console.log(this.state.infoToggled)
     if (!this.state.infoToggled) {
       this.setState({ infoToggled: true })
     } else { this.setState({ infoToggled: false }) }
-
   }
 
   render() {
-
     const eventList =
       <DataList
         data={this.state.events}
         onClick={this.eventBlockOnClick}
+        alreadyLogged={this.state.mutualExclusives}
       />
 
     const infoList =
       <DataList
         data={this.state.info}
         onClick={this.infoBlockOnClick}
+        alreadyLogged={this.state.assocInfo}
       />
 
     const noEventsFound = <p className={`title`}> You have no events! </p>
@@ -145,10 +176,19 @@ class EventForm extends React.Component {
                   loadingOrNone}
             />
           </ContentTile>
+          <Level>
           <Button
             name={"Submit"}
             onClick={this.handleFormSubmit}
+            additionalClassName={`level-item`}
           />
+          <Button
+            name={"Clear Form"}
+            onClick={this.clearForm}
+            additionalClassName={`level-item`}
+          />
+          </Level>
+          
         </ContentTile>
       </AncestorTile>
     )

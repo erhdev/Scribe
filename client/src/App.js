@@ -6,24 +6,45 @@ import Dashboard from "./pages/Dashboard";
 import Login from "./pages/Login";
 import SessionView from "./pages/SessionView";
 import EventForm from "./components/EventForm"
+import { Level } from "./components/infrastructure/level";
 
-function App(props) {
+function App() {
   return (
-  /**
-   * 
-   * 
-     <Router>
-      <div>
-      <Route exact path="/" component={Login} />  
-      <Route exact path="/home" component={Dashboard} />
-      <Route exact path="/sessionview" component={SessionView} />
+    <Router>
+      <div className="level">
+        <div className={"level-left"}><p className={"title is-1"}>SCRIBE</p></div>
+        <div className={"level-item"}>
+          <div className="tabs is-centered is-fullwidth">
+            <ul>
+              <li className="is-active">
+                <div className="level">
+                  <span className="level-item icon is-small"><i className="fas fa-image" aria-hidden="true"></i></span>
+                  <Link className="level-item" to="/home">Dashboard</Link>
+                </div>
+              </li>
+              <li>
+                <div className="level">
+                  <span className="icon is-small"><i className="fas fa-music" aria-hidden="true"></i></span>
+                  <Link to="/sessionview">SessionView</Link>
+                </div>
+              </li>
+              <li>
+                <div className="level">
+                  <span className="icon is-small"><i className="fas fa-music" aria-hidden="true"></i></span>
+                  <Link to="/sessionview">SessionView</Link>
+                </div>
+              </li>
+            </ul>
+          </div>
+        </div>
       </div>
-    </Router> 
-    */ 
-   <Dashboard
-    ModalNode = {props.ModalNode}
-   ></Dashboard>
+      <Route exact path="/home" render={() => <Dashboard />} />
+    </Router>
+
   );
 }
 
 export default App;
+/*
+
+*/

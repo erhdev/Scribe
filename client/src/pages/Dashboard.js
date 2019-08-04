@@ -2,7 +2,7 @@ import React from "react";
 import ReactDOM from 'react-dom';
 import { EventModal } from "../components/EventModal"
 import { Button } from "../components/infrastructure/buttStuff";
-
+const ModalNode = document.getElementById('modal-root')
 class Dashboard extends React.Component {
     constructor(props) {
         super(props)
@@ -10,16 +10,15 @@ class Dashboard extends React.Component {
             modalFired: false
             
         }
+        this.fireEventModal = this.fireEventModal.bind(this)
     }
-    fireEventModal() {
-        if (!this.state.modalFired) {
-            this.setState({ modalFired: true })
-        } else { this.setState({ modalFired: false }) }
-        console.log(this.state.modalFired)
+    fireEventModal= e => {
+        ReactDOM.createPortal(<EventModal/> , ModalNode)
     }
+    
     render() {
         return (
-            ReactDOM.createPortal(<EventModal/> , this.props.ModalNode)
+            <Button additionalClassNames={"is-link"} onClick={this.fireEventModal} name={"Fire Modal"} />
         )
     }
 }

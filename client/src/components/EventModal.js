@@ -3,7 +3,6 @@ import EventForm from "./EventForm";
 
 export function EventModal(props) {
     return (
-        
         <div className={`modal is-active`} >
         <div className="modal-background"></div>
         <div className="modal-card">
@@ -14,9 +13,6 @@ export function EventModal(props) {
           <section className="modal-card-body">
             <EventForm/>
           </section>
-          <footer className="modal-card-foot">
-            <button className="button">Cancel</button>
-          </footer>
         </div>
       </div>
     )

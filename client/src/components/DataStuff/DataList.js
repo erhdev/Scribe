@@ -1,15 +1,29 @@
 import React from "react";
-import  { DataBlock } from "./DataBlock";
-import { ContentTile } from "./infrastructure/tileStuff";
+import  DataBlock  from "./DataBlock";
+import { ContentTile } from "../infrastructure/tileStuff";
 
 export class DataList extends React.Component {
     constructor(props) {
         super(props) 
         
     }
+    
     createList() {
-        let dataItems = this.props.data.map((event) =>
-        <DataBlock 
+        let data = this.props.data;
+        let alreadyLogged = this.props.alreadyLogged;
+        for (let i = 0; i < data.length; i++) {
+            data[i].clicked = false;
+        }
+        for (let i = 0; i < data.length; i++) {
+            for(let j = 0; j < alreadyLogged.length; j++) {
+                if (data[i]._id === alreadyLogged[j]) {
+                    data[i].clicked = true;
+                } 
+            }
+        }
+        let dataItems = data.map((event) =>
+        <DataBlock
+         clicked = {event.clicked} 
          title = {event.title}
          body = {event.body}
          key = {event._id}
