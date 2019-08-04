@@ -10,6 +10,7 @@ export class DataList extends React.Component {
     
     createList() {
         let data = this.props.data;
+        console.log(data)
         let alreadyLogged = this.props.alreadyLogged;
         for (let i = 0; i < data.length; i++) {
             data[i].clicked = false;

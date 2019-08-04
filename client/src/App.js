@@ -14,7 +14,7 @@ function App() {
       <div className="level">
         <div className={"level-left"}><p className={"title is-1"}>SCRIBE</p></div>
         <div className={"level-item"}>
-          <div className="tabs is-centered is-fullwidth">
+          <div className="tabs is-centered is-large">
             <ul>
               <li className="is-active">
                 <div className="level">
@@ -25,13 +25,13 @@ function App() {
               <li>
                 <div className="level">
                   <span className="icon is-small"><i className="fas fa-music" aria-hidden="true"></i></span>
-                  <Link to="/sessionview">SessionView</Link>
+                  <Link to="/session">SessionView</Link>
                 </div>
               </li>
               <li>
                 <div className="level">
                   <span className="icon is-small"><i className="fas fa-music" aria-hidden="true"></i></span>
-                  <Link to="/sessionview">SessionView</Link>
+                  <Link to="/create">Create Events</Link>
                 </div>
               </li>
             </ul>
