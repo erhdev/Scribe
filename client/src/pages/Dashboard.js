@@ -9,7 +9,27 @@ class Dashboard extends React.Component {
         super(props)
         this.state = {
             events: [],
-            info: [],         
+            info: [], 
+            actives: [
+                {
+                    name: "events",
+                    classNames: "is-active",
+                    
+                },
+                {
+                    name: "info",
+                    classNames: "",
+                    
+                },
+                {
+                    name: "session stats",
+                    classNames: ""
+                },
+                {
+                    name: "player stats",
+                    classNames: ""
+                }
+            ]       
         }
     }
    async componentDidMount() {
@@ -36,7 +56,7 @@ class Dashboard extends React.Component {
       };
     panelLinkOnClick = event => {
         const name = event.currentTarget.text
-        let newData = this.state.linkData
+        let newData = this.state.actives
         for (let i = 0; i < newData.length; i++) {
             newData[i].classNames = "";
         }
@@ -45,29 +65,13 @@ class Dashboard extends React.Component {
                 newData[i].classNames = "is-active";
             }
         }
-        this.setState({linkData: newData})
+        this.setState({actives : newData})
     }
     
     render() {
-       const linkData = [
-            {
-                name: "events",
-                classNames: "is-active",
-                component: <DataList data={this.state.events} alreadyLogged={[]}/>
-            },
-            {
-                name: "info",
-                classNames: ""
-            },
-            {
-                name: "session stats",
-                classNames: ""
-            },
-            {
-                name: "player stats",
-                classNames: ""
-            }
-        ]
+        let linkData = this.state.actives;
+        linkData[0].component = <DataList data={this.state.events} alreadyLogged={[]}/>;
+        linkData[1].component = <DataList data={this.state.info} alreadyLogged={[]} />;
         return (
             <div className="container">
             <Level>
