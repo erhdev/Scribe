@@ -9,12 +9,11 @@ export function DisplayPanel(props) {
    let active;
    if (data) {
     for (let i = 0; i < data.length; i++) {
-        if (data[i].classNames === "is-active") {
+        if (data[i].classNames === "subtitle is-4 is-active") {
          active = data[i].component
         }
     }
    } else {active = <div> <progress className={'progress is-info'} max="100">60%</progress> </div>}
-   console.log(active)
     return (
         <nav className="panel">
             <p className="panel-heading text-is-centered">

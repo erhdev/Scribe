@@ -18,7 +18,7 @@ export function InputForm(props) {
             value={props.body}
             onChange={props.onChange}
             name="body" 
-            display="Body"
+            display="Description"
             placeholder="What else do you need to know about the event?"
             />
           </ContentTile>

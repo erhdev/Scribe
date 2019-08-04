@@ -29,16 +29,16 @@ let controller = {
     pushEvent: function(req, res) {
         db.Event.findByIdAndUpdate(req.params.id, req.body)
             .then(dbEvent =>  {
-                console.log(dbEvent);
-                return db.Timeline.findOneAndUpdate({name: req.params.session }, { $push: { events: dbEvent._id } }, { new: true })
-            })
-            .then(dbEvent => {
+            console.log(dbEvent);
+            if (typeof dbEvent.mutualExclusives !== "undefined") {
                 for (let i = 0; i < dbEvent.mutualExclusives.length; i++) {
                     db.Event.findByIdAndDelete(dbEvent.mutualExclusives[i]);
+                }
                 }
                 for (let i = 0; dbEvent.mutualExclusives.length; i++) {
                     // logic for populating events goes here
                 }
+            db.Timeline.findOneAndUpdate({name: req.params.session }, { $push: { events: dbEvent._id } }, { new: true }).then(dbTimeline => res.json(dbTimeline))
             })
         // include logic for detecting and deleting mutualExclusives and for pushing info here
     }

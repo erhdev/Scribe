@@ -13,21 +13,21 @@ class Dashboard extends React.Component {
             actives: [
                 {
                     name: "events",
-                    classNames: "is-active",
+                    classNames: "subtitle is-4 is-active",
                     
                 },
                 {
                     name: "info",
-                    classNames: "",
+                    classNames: "subtitle is-4",
                     
                 },
                 {
                     name: "session stats",
-                    classNames: ""
+                    classNames: "subtitle is-4"
                 },
                 {
                     name: "player stats",
-                    classNames: ""
+                    classNames: "subtitle is-4"
                 }
             ]       
         }
@@ -58,11 +58,12 @@ class Dashboard extends React.Component {
         const name = event.currentTarget.text
         let newData = this.state.actives
         for (let i = 0; i < newData.length; i++) {
-            newData[i].classNames = "";
+            newData[i].classNames = "subtitle is-4";
         }
         for (let i = 0; i < newData.length; i++) {
             if (name === newData[i].name) {
-                newData[i].classNames = "is-active";
+                newData[i].classNames += " is-active";
+                console.log(newData)
             }
         }
         this.setState({actives : newData})

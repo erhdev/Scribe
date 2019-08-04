@@ -5,8 +5,8 @@ import { BrowserRouter as Router, Route, Link } from "react-router-dom";
 import Dashboard from "./pages/Dashboard";
 import Login from "./pages/Login";
 import SessionView from "./pages/SessionView";
-import EventForm from "./components/EventForm"
-import { Level } from "./components/infrastructure/level";
+import CreationForm from "./components/EventForm"
+import EventForm from './components/EventForm';
 
 function App() {
   return (
@@ -25,7 +25,7 @@ function App() {
               <li>
                 <div className="level">
                   <span className="icon is-small"><i className="fas fa-music" aria-hidden="true"></i></span>
-                  <Link to="/session">SessionView</Link>
+                  <Link to="/session">New Session</Link>
                 </div>
               </li>
               <li>
@@ -39,6 +39,8 @@ function App() {
         </div>
       </div>
       <Route exact path="/home" render={() => <Dashboard />} />
+      <Route exact path="/session" render={() => <SessionView />} />
+      <Route exact path="/create" render={() => <EventForm />} />
     </Router>
 
   );

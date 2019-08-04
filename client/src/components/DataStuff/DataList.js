@@ -10,9 +10,11 @@ export class DataList extends React.Component {
     
     createList() {
         let data = this.props.data;
-        console.log(data)
         let alreadyLogged = this.props.alreadyLogged;
         for (let i = 0; i < data.length; i++) {
+            if (data[i].assigned) {
+                data.splice(i, 1)
+            }
             data[i].clicked = false;
         }
         for (let i = 0; i < data.length; i++) {
