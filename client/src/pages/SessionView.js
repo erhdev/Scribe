@@ -97,6 +97,8 @@ class SessionView extends React.Component {
     let datatag = event.currentTarget.dataset.tag
     let events = this.state.events
     let foundEvent = events.find(event => datatag === event._id)
+    console.log(foundEvent)
+    delete foundEvent.clicked;
     foundEvent.assigned = true;
     eventAPI.pushEvent(datatag, this.state.session._id, foundEvent).then(result => console.log(result))
     }

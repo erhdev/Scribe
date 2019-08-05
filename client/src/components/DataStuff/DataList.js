@@ -14,8 +14,7 @@ export class DataList extends React.Component {
         for (let i = 0; i < data.length; i++) {
             if (data[i].assigned) {
                 data.splice(i, 1)
-            }
-            data[i].clicked = false;
+            } else {data[i].clicked = false;}
         }
         for (let i = 0; i < data.length; i++) {
             for(let j = 0; j < alreadyLogged.length; j++) {
