@@ -31,8 +31,8 @@ const eventAPI = {
         "/api/event/:id/:session"
         put request for the big boy special sauce custom method
   */
- pushEvent: function(id, session, eventData) {
-     return axios.put(`/api/event/${id}/${session}`, eventData);
+ pushEvent: function(id, sessionid, eventData) {
+     return axios.put(`/api/event/${id}/${sessionid}`, eventData);
  }
 }
 

@@ -1,20 +1,23 @@
 import React from "react";
+
 import { DisplayPanel } from "../components/infrastructure/DisplayPanel";
 import eventAPI from "../utils/eventAPI";
 import infoAPI from "../utils/infoAPI";
+import timelineAPI from "../utils/timelineAPI";
 import { DataList } from "../components/DataStuff/DataList";
 import { Level } from "../components/infrastructure/level";
-import timelineAPI from "../utils/timelineAPI";
-import { AncestorTile } from "../components/infrastructure/tileStuff";
-import { AccordionItem } from "../components/DataStuff/AccordionItem";
-class Dashboard extends React.Component {
+import { InputForm } from "../components/InputForm";
+import { Button } from "../components/infrastructure/buttStuff";
+
+class SessionView extends React.Component {
     constructor(props) {
         super(props)
         this.state = {
-            currentView: {},
+            title:"",
+            body:"",
             events: [],
             info: [], 
-            sessions: [],
+            session: {},
             actives: [
                 {
                     name: "events",
@@ -38,9 +41,19 @@ class Dashboard extends React.Component {
         }
     }
    async componentDidMount() {
-        await this.loadSessions()
         await this.loadEvents();
         await this.loadInfo();
+        //await this.loadSession();
+    }
+    createTimeline = event => {
+        const timelineData = {
+            name: this.state.title,
+            description: this.state.body
+        }
+        timelineAPI.createTimeline(timelineData).then(result => {
+            console.log(result)
+            this.setState({session: result.data})
+        }); 
     }
     loadEvents() {
         eventAPI.readAllEvents()
@@ -51,7 +64,7 @@ class Dashboard extends React.Component {
           })
           .catch(err => console.log(err));
       };
-      loadInfo() {
+    loadInfo() {
         infoAPI.readAllInfo()
           .then((results) => {
             results.data.reverse();
@@ -60,15 +73,6 @@ class Dashboard extends React.Component {
           })
           .catch(err => console.log(err));
       };
-    loadSessions() {
-        timelineAPI.readAllTimelines()
-        .then((results) => {
-            results.data.reverse();
-            this.setState({ sessions: results.data })
-            console.log(this.state.sessions)
-          })
-        .catch(err => console.log(err));
-    }
     panelLinkOnClick = event => {
         const name = event.currentTarget.text
         let newData = this.state.actives
@@ -83,26 +87,47 @@ class Dashboard extends React.Component {
         }
         this.setState({actives : newData})
     }
-    sessionItemOnClick = event => {
-        let datatag = event.currentTarget.dataset.tag
-        console.log(datatag)
-        let currentEvent = this.state.sessions.find(session => session._id === datatag)
-        this.setState({currentView : currentEvent})
+    handleInputChange = event => {
+        const { name, value } = event.target;
+        this.setState({
+          [name]: value
+        });
+      };
+    eventBlockOnClick = event => {
+    let datatag = event.currentTarget.dataset.tag
+    let events = this.state.events
+    let foundEvent = events.find(event => datatag === event._id)
+    console.log(foundEvent)
+    delete foundEvent.clicked;
+    foundEvent.assigned = true;
+    async function pushThenRead() {
+        await eventAPI.pushEvent(datatag, this.state.session._id, foundEvent).then(result => console.log(result))
+        timelineAPI.readTimeline(this.state.session._id).then(result => 
+     this.setState({session: result.data}))
+     console.log(this.state.session)
+    }
+    pushThenRead = pushThenRead.bind(this)
+    pushThenRead()
     }
     render() {
-        console.log(this.state.currentView)
-        let currentEventDefined = this.state.currentView? <AccordionItem
-        title={this.state.currentView.name}
-        /> : "" ;
-        let sessions = this.state.sessions
-        let sessionList = <DataList data={sessions} alreadyLogged={[]} onClick={this.sessionItemOnClick}/>
+        let seshEvents = this.state.session.events;
+        console.log(seshEvents)
+        let seshList;
+        if (seshEvents) {
+          seshList = //seshEvents.map(event => <div>{event.title}</div>)
+          <DataList fullDisplay data={seshEvents} alreadyLogged = {[]} />
+        }
         let linkData = this.state.actives;
-        linkData[0].component = <DataList data={this.state.events} alreadyLogged={[]}/>;
-        linkData[1].component = <DataList data={this.state.info} alreadyLogged={[]} />;
+        linkData[0].component = <DataList setting="buttons" data={this.state.events} alreadyLogged={[]} onClick={this.eventBlockOnClick}/>;
+        linkData[1].component = <DataList setting="buttons" data={this.state.info} alreadyLogged={[]} />;
         return (
             <div className="container">
             <Level>
-            <div className={"level-left"}><AncestorTile>{sessionList}</AncestorTile></div>
+            <div className={"level-left tile"}>
+                <InputForm title={this.state.title} body={this.state.body} onChange={this.handleInputChange}/>
+                <Button name="Create Session" onClick={this.createTimeline} />
+                {seshList}
+            </div>
             <div className={"level-right"}>
             <DisplayPanel
             name={"data"}
@@ -111,10 +136,9 @@ class Dashboard extends React.Component {
             />
             </div>
             </Level>
-            {currentEventDefined}
             </div>
         )
     }
 }
 
-export default Dashboard;
+export default SessionView;

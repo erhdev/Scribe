@@ -6,13 +6,14 @@ const path = require("path");
 const router = require("express").Router();
 const eventRoutes = require("./event");
 const timelineRoutes = require("./timeline");
-
+const infoRoutes = require("./info")
 /*
 layers on the event and timeline addresses to the 
 routes
 */
 router.use("/event", eventRoutes);
 router.use("/timeline", timelineRoutes);
+router.use("/info", infoRoutes)
 
 // For anything else, render the html page
 router.use(function(req, res) {

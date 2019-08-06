@@ -17,6 +17,7 @@
   },
   "scripts": {
     "exorcise": "nodemon server.js",
+    "react-start": "react-scripts start",
     "start": "npm start",
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject"

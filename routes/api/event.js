@@ -19,7 +19,7 @@ router.route("/:id")
   .delete(eventController.deleteEvent);
 
 // includes the additional "session" parameter to include relevant information
-router.route('/:id/:session')
+router.route('/:id/:sessionid')
   .put(eventController.pushEvent);
 
 module.exports = router;
