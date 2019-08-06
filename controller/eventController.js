@@ -13,6 +13,7 @@ let controller = {
     },
     readOne: function(req, res) {
         db.Event.findById(req.params.id)
+            .populate('info')
             .then(dbEvent => {res.json(dbEvent); })
             .catch(err => res.status(422).json(err))
     },
@@ -27,7 +28,6 @@ let controller = {
         .catch(err => res.status(422).json(err))
     },
     pushEvent: function(req, res) {
-        console.log("what?")
         const timelineID = req.params.sessionid
         console.log(timelineID)
         db.Event.findByIdAndUpdate(req.params.id, req.body)

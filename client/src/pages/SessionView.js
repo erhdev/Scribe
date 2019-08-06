@@ -100,19 +100,33 @@ class SessionView extends React.Component {
     console.log(foundEvent)
     delete foundEvent.clicked;
     foundEvent.assigned = true;
-    eventAPI.pushEvent(datatag, this.state.session._id, foundEvent).then(result => console.log(result))
+    async function pushThenRead() {
+        await eventAPI.pushEvent(datatag, this.state.session._id, foundEvent).then(result => console.log(result))
+        timelineAPI.readTimeline(this.state.session._id).then(result => 
+     this.setState({session: result.data}))
+     console.log(this.state.session)
+    }
+    pushThenRead = pushThenRead.bind(this)
+    pushThenRead()
     }
     render() {
-        console.log(this.state.session)
+        let seshEvents = this.state.session.events;
+        console.log(seshEvents)
+        let seshList;
+        if (seshEvents) {
+          seshList = //seshEvents.map(event => <div>{event.title}</div>)
+          <DataList fullDisplay data={seshEvents} alreadyLogged = {[]} />
+        }
         let linkData = this.state.actives;
-        linkData[0].component = <DataList data={this.state.events} alreadyLogged={[]} onClick={this.eventBlockOnClick}/>;
-        linkData[1].component = <DataList data={this.state.info} alreadyLogged={[]} />;
+        linkData[0].component = <DataList setting="buttons" data={this.state.events} alreadyLogged={[]} onClick={this.eventBlockOnClick}/>;
+        linkData[1].component = <DataList setting="buttons" data={this.state.info} alreadyLogged={[]} />;
         return (
             <div className="container">
             <Level>
             <div className={"level-left tile"}>
                 <InputForm title={this.state.title} body={this.state.body} onChange={this.handleInputChange}/>
                 <Button name="Create Session" onClick={this.createTimeline} />
+                {seshList}
             </div>
             <div className={"level-right"}>
             <DisplayPanel

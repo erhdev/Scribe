@@ -135,6 +135,7 @@ class EventForm extends React.Component {
   render() {
     const eventList =
       <DataList
+        setting="buttons"
         data={this.state.events}
         onClick={this.eventBlockOnClick}
         alreadyLogged={this.state.mutualExclusives}
@@ -142,6 +143,7 @@ class EventForm extends React.Component {
 
     const infoList =
       <DataList
+        setting="buttons"
         data={this.state.info}
         onClick={this.infoBlockOnClick}
         alreadyLogged={this.state.assocInfo}

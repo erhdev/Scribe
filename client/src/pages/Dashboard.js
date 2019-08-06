@@ -4,12 +4,17 @@ import eventAPI from "../utils/eventAPI";
 import infoAPI from "../utils/infoAPI";
 import { DataList } from "../components/DataStuff/DataList";
 import { Level } from "../components/infrastructure/level";
+import timelineAPI from "../utils/timelineAPI";
+import { AncestorTile } from "../components/infrastructure/tileStuff";
+import { AccordionItem } from "../components/DataStuff/AccordionItem";
 class Dashboard extends React.Component {
     constructor(props) {
         super(props)
         this.state = {
+            currentView: {},
             events: [],
             info: [], 
+            sessions: [],
             actives: [
                 {
                     name: "events",
@@ -33,6 +38,7 @@ class Dashboard extends React.Component {
         }
     }
    async componentDidMount() {
+        await this.loadSessions()
         await this.loadEvents();
         await this.loadInfo();
     }
@@ -54,6 +60,15 @@ class Dashboard extends React.Component {
           })
           .catch(err => console.log(err));
       };
+    loadSessions() {
+        timelineAPI.readAllTimelines()
+        .then((results) => {
+            results.data.reverse();
+            this.setState({ sessions: results.data })
+            console.log(this.state.sessions)
+          })
+        .catch(err => console.log(err));
+    }
     panelLinkOnClick = event => {
         const name = event.currentTarget.text
         let newData = this.state.actives
@@ -68,15 +83,27 @@ class Dashboard extends React.Component {
         }
         this.setState({actives : newData})
     }
-    
+    sessionItemOnClick = event => {
+        let datatag = event.currentTarget.dataset.tag
+        console.log(datatag)
+        let currentEvent = this.state.sessions.find(session => session._id === datatag)
+        this.setState({currentView : currentEvent})
+    }
     render() {
+        console.log(this.state.currentView)
+        let currentEventDefined = this.state.currentView? <AccordionItem
+        title={this.state.currentView.name}
+        /> : "" ;
+        let sessions = this.state.sessions
+        let sessionList = <DataList data={sessions} alreadyLogged={[]} onClick={this.sessionItemOnClick}/>
         let linkData = this.state.actives;
         linkData[0].component = <DataList data={this.state.events} alreadyLogged={[]}/>;
         linkData[1].component = <DataList data={this.state.info} alreadyLogged={[]} />;
         return (
             <div className="container">
             <Level>
-            <div className={"list-right"}>
+            <div className={"level-left"}><AncestorTile>{sessionList}</AncestorTile></div>
+            <div className={"level-right"}>
             <DisplayPanel
             name={"data"}
             onClick={this.panelLinkOnClick}
@@ -84,6 +111,7 @@ class Dashboard extends React.Component {
             />
             </div>
             </Level>
+            {currentEventDefined}
             </div>
         )
     }
