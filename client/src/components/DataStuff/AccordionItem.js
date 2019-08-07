@@ -1,4 +1,7 @@
 import React from "react";
+
+import {SlideDown} from 'react-slidedown'
+import 'react-slidedown/lib/slidedown.css'
 class AccordionItem extends React.Component {
     constructor(props){
         super(props)
@@ -16,14 +19,16 @@ class AccordionItem extends React.Component {
         }
     }
     render ()   {
-        let foldedDown = this.state.foldDownShown?  
-        <div className={`fold-down`}>
-        <p>{this.props.body}</p>
-        <p>Associated Info:</p>
-        {this.props.children}
-         </div>
-        :
-        ""
+      
+        let foldedDown =   
+        <SlideDown className={`fold-down`}>
+        {this.state.foldDownShown ? 
+            <div><p>{this.props.body}</p>
+            <p>Associated Info:</p>
+            {this.props.children}</div>
+            : 
+            null}
+        </SlideDown>
         return (
         <article
             className={`accordion has-text-centered ${this.props.additionalClassNames}`}

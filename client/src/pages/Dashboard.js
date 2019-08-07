@@ -15,61 +15,61 @@ class Dashboard extends React.Component {
         this.state = {
             currentView: {},
             events: [],
-            info: [], 
+            info: [],
             sessions: [],
             actives: [
                 {
                     name: "events",
                     classNames: "subtitle is-4 is-active",
-                    
+
                 },
                 {
                     name: "info",
                     classNames: "subtitle is-4",
-                    
+
                 },
                 {
-                    name: "session stats",
+                    name: "sessions",
                     classNames: "subtitle is-4"
                 },
                 {
                     name: "player stats",
                     classNames: "subtitle is-4"
                 }
-            ]       
+            ]
         }
     }
-   async componentDidMount() {
+    async componentDidMount() {
         await this.loadSessions()
         await this.loadEvents();
         await this.loadInfo();
     }
     loadEvents() {
         eventAPI.readAllEvents()
-          .then((results) => {
-            results.data.reverse();
-            this.setState({ events: results.data })
-            console.log(this.state.events)
-          })
-          .catch(err => console.log(err));
-      };
-      loadInfo() {
+            .then((results) => {
+                results.data.reverse();
+                this.setState({ events: results.data })
+                console.log(this.state.events)
+            })
+            .catch(err => console.log(err));
+    };
+    loadInfo() {
         infoAPI.readAllInfo()
-          .then((results) => {
-            results.data.reverse();
-            this.setState({ info: results.data })
-            console.log(this.state.info)
-          })
-          .catch(err => console.log(err));
-      };
+            .then((results) => {
+                results.data.reverse();
+                this.setState({ info: results.data })
+                console.log(this.state.info)
+            })
+            .catch(err => console.log(err));
+    };
     loadSessions() {
         timelineAPI.readAllTimelines()
-        .then((results) => {
-            results.data.reverse();
-            this.setState({ sessions: results.data })
-            console.log(this.state.sessions)
-          })
-        .catch(err => console.log(err));
+            .then((results) => {
+                results.data.reverse();
+                this.setState({ sessions: results.data })
+                console.log(this.state.sessions)
+            })
+            .catch(err => console.log(err));
     }
     panelLinkOnClick = event => {
         const name = event.currentTarget.text
@@ -83,43 +83,60 @@ class Dashboard extends React.Component {
                 console.log(newData)
             }
         }
-        this.setState({actives : newData})
+        this.setState({ actives: newData })
     }
     sessionItemOnClick = event => {
         let datatag = event.currentTarget.dataset.tag
         console.log(datatag)
         let currentEvent = this.state.sessions.find(session => session._id === datatag)
-        this.setState({currentView : currentEvent})
+        this.setState({ currentView: currentEvent })
+    }
+    eventItemOnClick = event => {
+        let datatag = event.currentTarget.dataset.tag
+        console.log(datatag)
+        let currentEvent = this.state.events.find(session => session._id === datatag)
+        this.setState({ currentView: currentEvent })
+    }
+    infoItemOnClick = event => {
+        let datatag = event.currentTarget.dataset.tag
+        console.log(datatag)
+        let currentEvent = this.state.info.find(session => session._id === datatag)
+        this.setState({ currentView: currentEvent })
     }
     render() {
-        
-        let currentEventDefined = this.state.currentView._id? <Inspector 
-        title = {this.state.currentView.name || this.state.currentView.title}
-        body={this.state.currentView.description} 
-        children={<DataList accordion fullDisplay onClick={this.foldDownOnClick} data={this.state.currentView.events || this.state.currentView.info} />}
-        /> : "" ;
+
+        let currentEventDefined = this.state.currentView._id ? <Inspector
+            title={this.state.currentView.name || this.state.currentView.title}
+            body={this.state.currentView.description}
+            children={<DataList accordion fullDisplay onClick={this.foldDownOnClick} data={this.state.currentView.events || this.state.currentView.assocInfo || []} />}
+        /> : <Inspector
+                title={"Select an event to inspect it."}
+            />;
 
         let sessions = this.state.sessions
-        let sessionList = <DataList accordion data={sessions} alreadyLogged={[]} onClick={this.sessionItemOnClick}/>
-        let sessionsLoaded = (sessions.length)? sessionList : <img src={loading}></img>;
+
+        //        let dataLoaded = (sessions.length)? linkData : <img src={loading}></img>;
 
         let linkData = this.state.actives;
-        linkData[0].component = <DataList data={this.state.events} alreadyLogged={[]}/>;
-        linkData[1].component = <DataList data={this.state.info} alreadyLogged={[]} />;
+        linkData[0].component = <DataList accordion data={this.state.events} additionalClassNames={`panel-item`} alreadyLogged={[]} onClick={this.eventItemOnClick} />;
+        linkData[1].component = <DataList accordion data={this.state.info} additionalClassNames={`panel-item`} alreadyLogged={[]} onClick={this.infoItemOnClick} />
+        linkData[2].component = <DataList accordion data={sessions} additionalClassNames={`panel-item`} alreadyLogged={[]} onClick={this.sessionItemOnClick} />
 
         return (
             <div className="container">
-            <Level>
-            <div className={"level-left"}><AncestorTile>{sessionsLoaded}</AncestorTile></div>
-            <div className={"level-right"}>
-            <DisplayPanel
-            name={"data"}
-            onClick={this.panelLinkOnClick}
-            linkData={linkData}
-            />
-            </div>
-            </Level>
-            {currentEventDefined}
+                <div className={"columns"}>
+                    <div className={"column"}>
+                        <DisplayPanel
+                            name={"data"}
+                            onClick={this.panelLinkOnClick}
+                            linkData={linkData}
+                        />
+                    </div>
+                    
+                    <div className={"column"}>
+                        <div className="container">{currentEventDefined}</div>
+                    </div>
+                </div>
             </div>
         )
     }

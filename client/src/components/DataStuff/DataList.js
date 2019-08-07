@@ -49,6 +49,7 @@ export class DataList extends React.Component {
                 />
             )
         } else {
+            console.log(data)
             dataItems = data.map((event) =>
                 <AccordionItem
                     clicked={event.clicked}
@@ -56,6 +57,7 @@ export class DataList extends React.Component {
                     body={event.body || event.description}
                     key={event._id}
                     _id={event._id}
+                    additionalClassNames={this.props.additionalClassNames}
                     onClick={this.props.onClick}
                 />
             )
