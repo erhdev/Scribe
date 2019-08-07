@@ -1,6 +1,7 @@
 import React from "react";
 import DataBlock from "./DataBlock";
 import  AccordionItem  from "./AccordionItem";
+import RegularItem from "./RegularItem"
 import { ContentTile } from "../infrastructure/tileStuff";
 
 
@@ -36,7 +37,7 @@ export class DataList extends React.Component {
         } 
         if (this.props.fullDisplay) {data = this.props.data; console.log(data)}
         var dataItems;
-        if (!this.props.accordion) {
+        if (!this.props.accordion && !this.props.regular) {
             console.log(data)         
             dataItems = data.map((event) =>
                 <DataBlock
@@ -48,7 +49,7 @@ export class DataList extends React.Component {
                     onClick={this.props.onClick}
                 />
             )
-        } else {
+        } else  if (!this.props.regular) {
             console.log(data)
             dataItems = data.map((event) =>
                 <AccordionItem
@@ -57,9 +58,23 @@ export class DataList extends React.Component {
                     body={event.body || event.description}
                     key={event._id}
                     _id={event._id}
+                    children={event.assocInfo? event.assocInfo : null}
                     additionalClassNames={this.props.additionalClassNames}
                     onClick={this.props.onClick}
                 />
+            )
+        } else {
+            dataItems = data.map((event) =>
+            <RegularItem
+                clicked={event.clicked}
+                title={event.title || event.name}
+                body={event.body || event.description}
+                key={event._id}
+                _id={event._id}
+                children={event.assocInfo? event.assocInfo : null}
+                additionalClassNames={this.props.additionalClassNames}
+                onClick={this.props.onClick}
+            />
             )
         }
         let dataItems1 = dataItems.splice(0, (dataItems.length / 3));

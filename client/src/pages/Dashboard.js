@@ -88,14 +88,25 @@ class Dashboard extends React.Component {
     sessionItemOnClick = event => {
         let datatag = event.currentTarget.dataset.tag
         console.log(datatag)
-        let currentEvent = this.state.sessions.find(session => session._id === datatag)
-        this.setState({ currentView: currentEvent })
+        //let currentEvent = this.state.sessions.find(session => session._id === datatag)
+        timelineAPI.readTimeline(datatag)
+        .then(result =>
+            {
+                console.log(result);
+                this.setState({ currentView: result.data})
+            }
+        )
+        
     }
     eventItemOnClick = event => {
         let datatag = event.currentTarget.dataset.tag
         console.log(datatag)
+        eventAPI.readEvent(datatag)
+        .then(result =>
+            this.setState({ currentView: result.data })
+        )
         let currentEvent = this.state.events.find(session => session._id === datatag)
-        this.setState({ currentView: currentEvent })
+        
     }
     infoItemOnClick = event => {
         let datatag = event.currentTarget.dataset.tag
@@ -107,8 +118,8 @@ class Dashboard extends React.Component {
 
         let currentEventDefined = this.state.currentView._id ? <Inspector
             title={this.state.currentView.name || this.state.currentView.title}
-            body={this.state.currentView.description}
-            children={<DataList accordion fullDisplay onClick={this.foldDownOnClick} data={this.state.currentView.events || this.state.currentView.assocInfo || []} />}
+            body={this.state.currentView.description || this.state.currentView.body}
+            children={<DataList accordion fullDisplay data={this.state.currentView.events || this.state.currentView.assocInfo || []} />}
         /> : <Inspector
                 title={"Select an event to inspect it."}
             />;
@@ -132,7 +143,7 @@ class Dashboard extends React.Component {
                             linkData={linkData}
                         />
                     </div>
-                    
+
                     <div className={"column"}>
                         <div className="container">{currentEventDefined}</div>
                     </div>

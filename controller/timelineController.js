@@ -12,7 +12,13 @@ let controller = {
     },
     readOne: function(req, res) {
         db.Timeline.findById(req.params.id)
-            .populate('events')
+            .populate({
+                path: 'events',
+                populate: {
+                    path: 'assocInfo',
+                    model: "Info"
+                }
+            })
             .then(dbTimeline => {res.json(dbTimeline); console.log(dbTimeline)})
             .catch(err => res.status(422).json(err))
     },

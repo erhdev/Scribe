@@ -2,6 +2,7 @@ import React from "react";
 
 import {SlideDown} from 'react-slidedown'
 import 'react-slidedown/lib/slidedown.css'
+import { DataList } from "./DataList";
 class AccordionItem extends React.Component {
     constructor(props){
         super(props)
@@ -18,14 +19,15 @@ class AccordionItem extends React.Component {
         }
         }
     }
-    render ()   {
-      
+    render ()   {     
         let foldedDown =   
         <SlideDown className={`fold-down`}>
         {this.state.foldDownShown ? 
             <div><p>{this.props.body}</p>
-            <p>Associated Info:</p>
-            {this.props.children}</div>
+            <p className={`quick-underline`}>Associated Info:</p>
+            <DataList regular data={this.props.children} alreadyLogged={[]} additionalClassNames={` push-right`}
+            />
+            </div>
             : 
             null}
         </SlideDown>
