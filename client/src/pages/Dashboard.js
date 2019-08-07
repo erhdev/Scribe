@@ -7,6 +7,7 @@ import { Level } from "../components/infrastructure/level";
 import timelineAPI from "../utils/timelineAPI";
 import { AncestorTile } from "../components/infrastructure/tileStuff";
 import { AccordionItem } from "../components/DataStuff/AccordionItem";
+import { Inspector } from "../components/Inspector";
 class Dashboard extends React.Component {
     constructor(props) {
         super(props)
@@ -91,8 +92,11 @@ class Dashboard extends React.Component {
     }
     render() {
         console.log(this.state.currentView)
-        let currentEventDefined = this.state.currentView? <AccordionItem
-        title={this.state.currentView.name}
+        
+        let currentEventDefined = this.state.currentView._id? <Inspector 
+        title = {this.state.currentView.name || this.state.currentView.title}
+        body={this.state.currentView.description} 
+        children={<DataList accordion fullDisplay data={this.state.currentView.events || this.state.currentView.info} />}
         /> : "" ;
         let sessions = this.state.sessions
         let sessionList = <DataList data={sessions} alreadyLogged={[]} onClick={this.sessionItemOnClick}/>

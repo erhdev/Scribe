@@ -1,10 +1,23 @@
 $modal-content-width: 90%;
 $button-width: 50%;
 $title-color: rgb(143, 188, 205);
-$panel-display: none
+
+.fold-down
+    display: none
+
+.hero
+    .hero-body
+        .container
+            .title
+                color: $title-color
+article
+    background-color: #787878
+
 body
     background-color: rgb(48, 51, 58)
     height: 100vh
+figure
+    background-color: rgb(143, 188, 205);
 
 @import '../../node_modules/bulma/sass/utilities/_all.sass';
 @import '../../node_modules/bulma/sass/base/_all.sass';
@@ -15,3 +28,4 @@ body
 @import '../../node_modules/bulma/sass/components/panel.sass'
 @import '../../node_modules/bulma/sass/elements/_all.sass'
 @import '../../node_modules/bulma/sass/form/_all.sass'
+@import "../../node_modules/bulma/sass/layout/hero.sass"

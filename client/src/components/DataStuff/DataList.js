@@ -37,9 +37,8 @@ export class DataList extends React.Component {
         if (this.props.fullDisplay) {data = this.props.data; console.log(data)}
         var dataItems;
         if (!this.props.accordion) {
-            console.log(data)
-            let newData = data
-            dataItems = newData.map((event) =>
+            console.log(data)         
+            dataItems = data.map((event) =>
                 <DataBlock
                     clicked={event.clicked}
                     title={event.title || event.name}

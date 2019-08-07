@@ -11,7 +11,7 @@ import EventForm from './components/EventForm';
 function App() {
   return (
     <Router>
-      <div className="level">
+      <div className="level container">
         <div className={"level-left"}><p className={"title is-1"}>SCRIBE</p></div>
         <div className={"level-item"}>
           <div className="tabs is-centered is-large">
