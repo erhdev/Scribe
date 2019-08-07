@@ -1,6 +1,6 @@
 import React from "react";
 import DataBlock from "./DataBlock";
-import { AccordionItem } from "./AccordionItem";
+import  AccordionItem  from "./AccordionItem";
 import { ContentTile } from "../infrastructure/tileStuff";
 
 
@@ -52,8 +52,8 @@ export class DataList extends React.Component {
             dataItems = data.map((event) =>
                 <AccordionItem
                     clicked={event.clicked}
-                    title={event.title}
-                    body={event.body}
+                    title={event.title || event.name}
+                    body={event.body || event.description}
                     key={event._id}
                     _id={event._id}
                     onClick={this.props.onClick}

@@ -1,18 +1,44 @@
 $modal-content-width: 90%;
 $button-width: 50%;
 $title-color: rgb(143, 188, 205);
-
-.fold-down
-    display: none
+.fold-down 
+  padding: 0 18px;
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.2s ease-out;
 
 .hero
     .hero-body
         .container
             .title
                 color: $title-color
-article
-    background-color: #787878
-
+    .container
+        .accordion 
+            padding-bottom: 15% 
+            .level
+                p
+                    color: $title-color
+                    border-left: 2px solid $title-color
+                    padding: 0px 10px 0px
+                    &:hover
+                        animation: bg-fade 1s 1 
+                        border-radius: 3px
+.is-ancestor
+    div
+        div
+            .is-child
+                .columns
+                    .column
+                         .accordion 
+                        
+                             .level
+                                    p
+                                        color: $title-color
+                                        border-left: 2px solid $title-color
+                                        padding: 0px 10px 0px
+                                    &:hover
+                                        animation: bg-fade 1s 1 
+                                        border-radius: 3px
 body
     background-color: rgb(48, 51, 58)
     height: 100vh

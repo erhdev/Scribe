@@ -1,28 +1,41 @@
 import React from "react";
-import { Button } from "../infrastructure/buttStuff";
-import { Level } from "../infrastructure/level";
-export function AccordionItem(props) {
-    return (
-
-
+class AccordionItem extends React.Component {
+    constructor(props){
+        super(props)
+        this.state = {
+            foldDownShown: false
+        }
+    } 
+    foldDownOnClick= event => {
+        if(!this.props.onClick){
+        if (this.state.foldDownShown) {
+            this.setState({foldDownShown: false})
+        } else {
+            this.setState({foldDownShown: true})
+        }
+        }
+    }
+    render ()   {
+        let foldedDown = this.state.foldDownShown?  
+        <div className={`fold-down`}>
+        <p>{this.props.body}</p>
+        <p>Associated Info:</p>
+        {this.props.children}
+         </div>
+        :
+        ""
+        return (
         <article
-            className={`accordion has-text-centered ${props.additionalClassNames}`}
-            data-tag={props._id}
-            key={props._id}>
-            <Level
-                children={
-                    <div>
-                        <p className={`subtitle is-4 level-left`}> {props.title} </p>
-                        <Button onClick={props.onClick} additonalClassName={`level-right`} name={<i className="fas fa-plus"></i>} />
-                    </div>
-                }
-            />
-            <div className={`fold-down`}>
-                <p>{props.body}</p>
-                <p>Associated Info:</p>
-                {props.children}
+            className={`accordion has-text-centered ${this.props.additionalClassNames}`}
+            data-tag={this.props._id}
+            key={this.props._id}
+            onClick={this.props.onClick}>
+            <div className={'level'}>  
+                <p className={`subtitle is-4 level-left`} onClick={this.foldDownOnClick}> {this.props.title} </p>
             </div>
+            {foldedDown}
         </article>
-
-    )
+        )
+    }
 }
+export default AccordionItem;

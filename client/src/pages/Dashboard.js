@@ -8,6 +8,7 @@ import timelineAPI from "../utils/timelineAPI";
 import { AncestorTile } from "../components/infrastructure/tileStuff";
 import { AccordionItem } from "../components/DataStuff/AccordionItem";
 import { Inspector } from "../components/Inspector";
+import loading from "../css/6.gif";
 class Dashboard extends React.Component {
     constructor(props) {
         super(props)
@@ -91,22 +92,25 @@ class Dashboard extends React.Component {
         this.setState({currentView : currentEvent})
     }
     render() {
-        console.log(this.state.currentView)
         
         let currentEventDefined = this.state.currentView._id? <Inspector 
         title = {this.state.currentView.name || this.state.currentView.title}
         body={this.state.currentView.description} 
-        children={<DataList accordion fullDisplay data={this.state.currentView.events || this.state.currentView.info} />}
+        children={<DataList accordion fullDisplay onClick={this.foldDownOnClick} data={this.state.currentView.events || this.state.currentView.info} />}
         /> : "" ;
+
         let sessions = this.state.sessions
-        let sessionList = <DataList data={sessions} alreadyLogged={[]} onClick={this.sessionItemOnClick}/>
+        let sessionList = <DataList accordion data={sessions} alreadyLogged={[]} onClick={this.sessionItemOnClick}/>
+        let sessionsLoaded = (sessions.length)? sessionList : <img src={loading}></img>;
+
         let linkData = this.state.actives;
         linkData[0].component = <DataList data={this.state.events} alreadyLogged={[]}/>;
         linkData[1].component = <DataList data={this.state.info} alreadyLogged={[]} />;
+
         return (
             <div className="container">
             <Level>
-            <div className={"level-left"}><AncestorTile>{sessionList}</AncestorTile></div>
+            <div className={"level-left"}><AncestorTile>{sessionsLoaded}</AncestorTile></div>
             <div className={"level-right"}>
             <DisplayPanel
             name={"data"}
