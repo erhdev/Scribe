@@ -6,11 +6,11 @@ const infoAPI = {
         get request for the readAll methods
         post request for the createinfo methods        
     */
-   readAllInfo: function() {
-       return axios.get('/api/info');
+   readAllInfo: function(user) {
+       return axios.get(`/api/info/${user}`);
    },
-   createInfo: function(infoData) {
-       return axios.post('/api/info', infoData);
+   createInfo: function(user, infoData) {
+       return axios.post(`/api/info/${user}`, infoData);
    },
    /*
         "/api/info/:id"

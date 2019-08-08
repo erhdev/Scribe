@@ -6,11 +6,11 @@ const timelineAPI = {
         get request for the readAll methods
         post request for the createtimeline methods        
     */
-   readAllTimelines: function() {
-       return axios.get('/api/timeline');
+   readAllTimelines: function(user) {
+       return axios.get(`/api/timeline/${user}`);
    },
-   createTimeline: function(timelineData) {
-       return axios.post('/api/timeline', timelineData);
+   createTimeline: function(user, timelineData) {
+       return axios.post(`/api/timeline/${user}`, timelineData);
    },
    /*
         "/api/timeline/:id"

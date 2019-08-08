@@ -8,7 +8,7 @@ const router = require("express").Router();
 const infoController = require("../../controller/infoController");
 
 // Matches with "/api/info"
-router.route("/")
+router.route("/:user")
   .get(infoController.readAll)
   .post(infoController.createInfo);
 

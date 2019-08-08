@@ -13,6 +13,8 @@ class SessionView extends React.Component {
     constructor(props) {
         super(props)
         this.state = {
+            userName: this.props.userInfo.name,
+            userID: this.props.userInfo._id,
             title:"",
             body:"",
             events: [],
@@ -50,13 +52,13 @@ class SessionView extends React.Component {
             name: this.state.title,
             description: this.state.body
         }
-        timelineAPI.createTimeline(timelineData).then(result => {
+        timelineAPI.createTimeline(this.state.userName, timelineData).then(result => {
             console.log(result)
             this.setState({session: result.data})
         }); 
     }
     loadEvents() {
-        eventAPI.readAllEvents()
+        eventAPI.readAllEvents(this.state.userName)
           .then((results) => {
             results.data.reverse();
             this.setState({ events: results.data })
@@ -65,7 +67,7 @@ class SessionView extends React.Component {
           .catch(err => console.log(err));
       };
     loadInfo() {
-        infoAPI.readAllInfo()
+        infoAPI.readAllInfo(this.state.userName)
           .then((results) => {
             results.data.reverse();
             this.setState({ info: results.data })
@@ -120,22 +122,20 @@ class SessionView extends React.Component {
         let linkData = this.state.actives;
         linkData[0].component = <DataList setting="buttons" data={this.state.events} alreadyLogged={[]} onClick={this.eventBlockOnClick}/>;
         linkData[1].component = <DataList setting="buttons" data={this.state.info} alreadyLogged={[]} />;
+
+        let sessionInitiated = this.state.session.name?  <DisplayPanel
+        name={"data"}
+        onClick={this.panelLinkOnClick}
+        linkData={linkData}
+        /> : <div> 
+        <InputForm title={this.state.title} body={this.state.body} onChange={this.handleInputChange}/>
+        <Button name="Create Session" onClick={this.createTimeline} />
+        </div>
         return (
             <div className="container">
-            <Level>
-            <div className={"level-left tile"}>
-                <InputForm title={this.state.title} body={this.state.body} onChange={this.handleInputChange}/>
-                <Button name="Create Session" onClick={this.createTimeline} />
-                {seshList}
-            </div>
-            <div className={"level-right"}>
-            <DisplayPanel
-            name={"data"}
-            onClick={this.panelLinkOnClick}
-            linkData={linkData}
-            />
-            </div>
-            </Level>
+            {sessionInitiated}
+                 {seshList}
+
             </div>
         )
     }

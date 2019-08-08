@@ -3,7 +3,11 @@ const db = require('../models');
 let controller = {
     createEvent: function(req, res) {
         db.Event.create(req.body)
-            .then(dbEvent =>{res.json(dbEvent); })
+            .then(dbEvent =>
+                {
+                console.log(dbEvent)
+                db.User.findOneAndUpdate({name: req.params.user}, { $push: { events: dbEvent._id} }, { new: true }).then(dbUser => console.log(dbUser))
+                res.json(dbEvent)})
             .catch(err => res.status(422).json(err))
     },
     deleteEvent: function(req, res) {
@@ -18,8 +22,16 @@ let controller = {
             .catch(err => res.status(422).json(err))
     },
     readAll: function(req, res) {
-        db.Event.find()
-            .then(dbEvent => {res.json(dbEvent); })
+        console.log(req.params)
+        db.User.findOne({name: req.params.user})
+            .populate({
+                path: 'events'
+            })
+            .then(dbUser => {
+                console.log('hitting correct route')  
+                console.log(dbUser.events)
+                res.json(dbUser.events)
+            })
             .catch(err => res.status(422).json(err))
     },
     updateEvent: function(req, res) {

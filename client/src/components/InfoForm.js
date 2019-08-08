@@ -13,6 +13,8 @@ class InfoForm extends React.Component {
     this.toggleInfo = this.toggleInfo.bind(this);
     this.clearForm = this.clearForm.bind(this)
     this.state = {
+      userName: this.props.userName,
+      userID: this.props.userID,
       infoToggled: false,
       events: [],
       info: [],
@@ -25,7 +27,7 @@ class InfoForm extends React.Component {
     this.loadInfo();
   };
  loadInfo() {
-    infoAPI.readAllInfo()
+    infoAPI.readAllInfo(this.state.userName)
       .then((results) => {
         results.data.reverse();
         this.setState({ info: results.data })
@@ -61,10 +63,10 @@ class InfoForm extends React.Component {
     {this.setState({noGo: true})}
     else{
     this.setState({noGo: false})
-    infoAPI.createEvent(
-      eventData
+    infoAPI.createInfo(
+      this.state.userName, eventData
     )
-      .then(this.loadEvents())
+      .then(this.loadInfo())
       .catch(err => console.log(err));
       this.clearForm();
     }
@@ -95,6 +97,7 @@ class InfoForm extends React.Component {
             title={this.state.title}
             body={this.state.body}
             onChange={this.handleInputChange}
+            type={'text'}
           />
           {infoList}
            <Level>
