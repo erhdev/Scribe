@@ -1,6 +1,7 @@
 import React from "react";
 import DataBlock from "./DataBlock";
-import { AccordionItem } from "./AccordionItem";
+import  AccordionItem  from "./AccordionItem";
+import RegularItem from "./RegularItem"
 import { ContentTile } from "../infrastructure/tileStuff";
 
 
@@ -36,10 +37,9 @@ export class DataList extends React.Component {
         } 
         if (this.props.fullDisplay) {data = this.props.data; console.log(data)}
         var dataItems;
-        if (!this.props.accordion) {
-            console.log(data)
-            let newData = data
-            dataItems = newData.map((event) =>
+        if (!this.props.accordion && !this.props.regular) {
+            console.log(data)         
+            dataItems = data.map((event) =>
                 <DataBlock
                     clicked={event.clicked}
                     title={event.title || event.name}
@@ -49,16 +49,32 @@ export class DataList extends React.Component {
                     onClick={this.props.onClick}
                 />
             )
-        } else {
+        } else  if (!this.props.regular) {
+            console.log(data)
             dataItems = data.map((event) =>
                 <AccordionItem
                     clicked={event.clicked}
-                    title={event.title}
-                    body={event.body}
+                    title={event.title || event.name}
+                    body={event.body || event.description}
                     key={event._id}
                     _id={event._id}
+                    children={event.assocInfo? event.assocInfo : null}
+                    additionalClassNames={this.props.additionalClassNames}
                     onClick={this.props.onClick}
                 />
+            )
+        } else {
+            dataItems = data.map((event) =>
+            <RegularItem
+                clicked={event.clicked}
+                title={event.title || event.name}
+                body={event.body || event.description}
+                key={event._id}
+                _id={event._id}
+                children={event.assocInfo? event.assocInfo : null}
+                additionalClassNames={this.props.additionalClassNames}
+                onClick={this.props.onClick}
+            />
             )
         }
         let dataItems1 = dataItems.splice(0, (dataItems.length / 3));
@@ -66,16 +82,9 @@ export class DataList extends React.Component {
         let dataItems3 = dataItems.splice(0, dataItems.length);
         const dataFound =
             <div>
-                <ContentTile
-                    children={<div className={'columns'}>{dataItems1}</div>}
-                />
-                <ContentTile
-                    children={<div className={'columns'}>{dataItems2}</div>}
-                />
-                <ContentTile
-
-                    children={<div className={'columns'}>{dataItems3}</div>}
-                />
+                <div className={'columns'}>{dataItems1}</div>
+                <div className={'columns'}>{dataItems2}</div>
+                <div className={'columns'}>{dataItems3}</div>
             </div>
         return dataFound;
     }

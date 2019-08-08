@@ -13,8 +13,8 @@ let controller = {
     },
     readOne: function(req, res) {
         db.Event.findById(req.params.id)
-            .populate('info')
-            .then(dbEvent => {res.json(dbEvent); })
+            .populate('assocInfo')
+            .then(dbEvent => {res.json(dbEvent); console.log(dbEvent)})
             .catch(err => res.status(422).json(err))
     },
     readAll: function(req, res) {

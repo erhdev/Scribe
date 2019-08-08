@@ -10,6 +10,7 @@
     "react-dom": "^16.8.6",
     "react-router-dom": "^5.0.1",
     "react-scripts": "3.0.1",
+    "react-slidedown": "^2.4.4",
     "sass": "^1.22.9",
     "shards-react": "^1.0.3"
   },

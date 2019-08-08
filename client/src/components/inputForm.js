@@ -4,7 +4,7 @@ import { ContentTile } from "./infrastructure/tileStuff";
 
 export function InputForm(props) {
     return (<div>
-            <ContentTile box>
+            <ContentTile >
             <BasicInput 
             value={props.title}
             onChange={props.onChange}
@@ -13,7 +13,7 @@ export function InputForm(props) {
             placeholder="The Party Talks to the King"
             />
           </ContentTile>
-          <ContentTile box>
+          <ContentTile>
             <TextArea 
             value={props.body}
             onChange={props.onChange}

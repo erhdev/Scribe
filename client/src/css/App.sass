@@ -1,10 +1,81 @@
 $modal-content-width: 90%;
+$base-color: rgb(48, 51, 58)
 $button-width: 50%;
+$column-gap: 0.75rem
 $title-color: rgb(143, 188, 205);
-$panel-display: none
+$link-color: #e4e7eb;
+$panel-item-border: 0px solid $title-color;
+$link-active: #4073b8;
+$footer-background-color: $base-color
+$label-color: $title-color
+$button-color: white
+$button-background-color: $title-color
+.label
+    border-left: 2px solid $title-color
+    padding-left: 5px
+    margin-top: 2px
+.push-right
+    margin-top: 2%
+    margin-left: 30%
+.quick-underline
+    border-bottom: 1px solid white
+.fold-down 
+    color: hsl(0, 0%, 98%)
+.panel-tabs
+    padding-bottom: 5%
+.accordion
+    padding-right: 10px
+.columns
+     padding-bottom: 1%
+.panel-item
+    border-left: 2px solid $link-active
+    border-right: 2px solid $link-active
+    border-radius: 10px
+    padding: 0px 10px 0px
+    background-color: rgba(0, 0, 0, 0.1)
+    &:hover
+        border-top: 1px solid #4073b8
+        border-bottom: 1px solid #4073b8
+.hero
+    border: 3px solid
+    border-image: linear-gradient(90deg, $link-active, rgba(0, 0, 0, 0)) 100 0
+    .hero-body
+        .container
+            .title
+                color: $title-color
+    .container
+        .accordion 
+            padding-bottom: 15% 
+            .level
+                p
+                    color: $title-color
+                    border-left: 2px solid $title-color
+                    padding: 0px 10px 0px
+                    &:hover
+                        animation: bg-fade 1s 1 
+                        border-radius: 3px
+.column
+    .subtitle
+        color: $link-color
+        &:hover
+.event-form-item
+             border-left: 2px solid $link-active
+             border-right: 2px solid $link-active
+             border-radius: 10px
+             padding: 0px 10px 0px
+             color: $link-color
+             background-color: rgba(0, 0, 0, 0.1)
+             &:hover
+             border-top: 1px solid #4073b8
+             border-bottom: 1px solid #4073b8
+.level 
+    background-color: $base-color
+    padding-top: 2%
 body
-    background-color: rgb(48, 51, 58)
+    background-color: $base-color
     height: 100vh
+figure
+    background-color: rgb(143, 188, 205);
 
 @import '../../node_modules/bulma/sass/utilities/_all.sass';
 @import '../../node_modules/bulma/sass/base/_all.sass';
@@ -15,3 +86,5 @@ body
 @import '../../node_modules/bulma/sass/components/panel.sass'
 @import '../../node_modules/bulma/sass/elements/_all.sass'
 @import '../../node_modules/bulma/sass/form/_all.sass'
+@import "../../node_modules/bulma/sass/layout/hero.sass"
+@import "../../node_modules/bulma/sass/layout/footer.sass"

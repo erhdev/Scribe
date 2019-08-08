@@ -79,12 +79,17 @@ class EventForm extends React.Component {
       mutualExclusives: this.state.mutualExclusives,
       assocInfo: this.state.assocInfo
     }
+    if (eventData.title === "")
+    {this.setState({noGo: true})}
+    else{
+    this.setState({noGo: false})
     eventAPI.createEvent(
       eventData
     )
       .then(this.loadEvents())
       .catch(err => console.log(err));
       this.clearForm();
+    }
   };  
   eventBlockOnClick = event => {
     // on a datablock click, checks the datatag passed to the datablock,
@@ -135,7 +140,8 @@ class EventForm extends React.Component {
   render() {
     const eventList =
       <DataList
-        setting="buttons"
+        accordion
+        additionalClassNames={`event-form-item`}
         data={this.state.events}
         onClick={this.eventBlockOnClick}
         alreadyLogged={this.state.mutualExclusives}
@@ -143,7 +149,8 @@ class EventForm extends React.Component {
 
     const infoList =
       <DataList
-        setting="buttons"
+        accordion
+        additionalClassNames={`event-form-item`}
         data={this.state.info}
         onClick={this.infoBlockOnClick}
         alreadyLogged={this.state.assocInfo}
@@ -154,47 +161,48 @@ class EventForm extends React.Component {
     const loadingOrNone = this.state.isLoading ? loadingSymbol : noEventsFound
     const eventsOrInfo = this.state.infoToggled ? infoList : eventList;
 
+    let enterTitle = this.state.noGo? <div class="notification is-danger">Please enter a title for your event!</div> : null;
     return (
-      <AncestorTile>
-        <ContentTile seniority box vertical>
+      <div>
+        {enterTitle}
           <InputForm
             title={this.state.title}
             body={this.state.body}
             onChange={this.handleInputChange}
           />
-          <ContentTile
-            box
-          >
+            <br></br>
             <DualDisplayToggle
               onClick={this.toggleInfo}
               className1={this.state.infoToggled ? "" : "is-active"}
               className2={this.state.infoToggled ? "is-active" : ""}
             />
-            <ContentTile
-              children={
-                this.state.events.length ?
+            {this.state.events.length ?
                   eventsOrInfo
                   :
-                  loadingOrNone}
+                  null}
+           <Level>
+            <Button
+              accordion
+              name={"Submit"}
+              onClick={this.handleFormSubmit}
+              additionalClassName={`level-item`}
             />
-          </ContentTile>
-          <Level>
-          <Button
-            name={"Submit"}
-            onClick={this.handleFormSubmit}
-            additionalClassName={`level-item`}
-          />
-          <Button
-            name={"Clear Form"}
-            onClick={this.clearForm}
-            additionalClassName={`level-item`}
-          />
-          </Level>
-          
-        </ContentTile>
-      </AncestorTile>
+            <Button
+              accordion
+              name={"Clear Form"}
+              onClick={this.clearForm}
+              additionalClassName={`level-item`}
+            />
+            </Level>
+            </div>
     )
   }
 }
 
 export default EventForm;
+
+/*
+
+
+
+*/
