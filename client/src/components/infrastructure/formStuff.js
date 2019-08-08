@@ -5,7 +5,7 @@ export function BasicInput(props) {
         <div className="field">
             <label className="label"><i class="fas fa-chevron-right"></i> {props.display}</label>
             <div className="control">
-                <input className="input" type="text" name={props.name} value={props.value} onChange={props.onChange}  placeholder={props.placeholder}></input>
+                <input className="input" type={props.type} name={props.name} value={props.value} onChange={props.onChange}  placeholder={props.placeholder}></input>
             </div>
         </div>
         )

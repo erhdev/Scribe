@@ -13,8 +13,10 @@ class SessionView extends React.Component {
     constructor(props) {
         super(props)
         this.state = {
-            title: "",
-            body: "",
+            userName: this.props.userInfo.name,
+            userID: this.props.userInfo._id,
+            title:"",
+            body:"",
             events: [],
             info: [],
             session: {},
@@ -50,29 +52,29 @@ class SessionView extends React.Component {
             name: this.state.title,
             description: this.state.body
         }
-        timelineAPI.createTimeline(timelineData).then(result => {
+        timelineAPI.createTimeline(this.state.userName, timelineData).then(result => {
             console.log(result)
             this.setState({ session: result.data })
         });
     }
     loadEvents() {
-        eventAPI.readAllEvents()
-            .then((results) => {
-                results.data.reverse();
-                this.setState({ events: results.data })
-                console.log(this.state.events)
-            })
-            .catch(err => console.log(err));
-    };
+        eventAPI.readAllEvents(this.state.userName)
+          .then((results) => {
+            results.data.reverse();
+            this.setState({ events: results.data })
+            console.log(this.state.events)
+          })
+          .catch(err => console.log(err));
+      };
     loadInfo() {
-        infoAPI.readAllInfo()
-            .then((results) => {
-                results.data.reverse();
-                this.setState({ info: results.data })
-                console.log(this.state.info)
-            })
-            .catch(err => console.log(err));
-    };
+        infoAPI.readAllInfo(this.state.userName)
+          .then((results) => {
+            results.data.reverse();
+            this.setState({ info: results.data })
+            console.log(this.state.info)
+          })
+          .catch(err => console.log(err));
+      };
     panelLinkOnClick = event => {
         const name = event.currentTarget.text
         let newData = this.state.actives
@@ -120,21 +122,21 @@ class SessionView extends React.Component {
         let linkData = this.state.actives;
         linkData[0].component = <DataList setting="buttons" data={this.state.events} alreadyLogged={[]} onClick={this.eventBlockOnClick} />;
         linkData[1].component = <DataList setting="buttons" data={this.state.info} alreadyLogged={[]} />;
-        let sessionInitiated = this.state.session._id ? <DisplayPanel
-            name={"data"}
-            onClick={this.panelLinkOnClick}
-            linkData={linkData}
-        />
-            :
-            <div className={""}>
-                <InputForm title={this.state.title} body={this.state.body} onChange={this.handleInputChange} />
-                <Button name="Create Session" onClick={this.createTimeline} />
-
-            </div>
+        let sessionInitiated = this.state.session.name?  <DisplayPanel
+        name={"data"}
+        onClick={this.panelLinkOnClick}
+        linkData={linkData}
+        /> : <div> 
+        <InputForm title={this.state.title} body={this.state.body} onChange={this.handleInputChange}/>
+        <Button name="Create Session" onClick={this.createTimeline} />
+        </div>
         return (
             <div className="container">
-                        {seshList}
-                    {sessionInitiated}
+               {seshList}
+            {sessionInitiated}
+            
+
+
             </div>
         )
     }

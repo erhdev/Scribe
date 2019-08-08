@@ -8,6 +8,11 @@ const UserSchema = new Schema({
         required: true,
         unique: true,
     },
+    password: {
+        type: String,
+        required: true,
+    },
+    info: [{type: Schema.Types.ObjectId, ref: "Info"}],
     events: [{type: Schema.Types.ObjectId, ref: "Event"}],
     timelines: [{type: Schema.Types.ObjectId, ref: "Timeline"}]
 });

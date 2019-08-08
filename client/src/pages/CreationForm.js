@@ -10,6 +10,8 @@ class CreationForm extends React.Component {
     constructor(props){
         super(props)
         this.state = {
+            userName: this.props.userInfo.name,
+            userID: this.props.userInfo._id,
             eventFormShown: false
         }
     } 
@@ -24,11 +26,12 @@ class CreationForm extends React.Component {
         const ToggleColor = {
             color: 'rgb(143, 188, 205)'
         }
+        console.log(this.state.userName)
     return(
         <div className="container">
         <DualDisplayToggle additionalClassNames={`is-large`} style={ToggleColor} onClick={this.eventFormOnClick}></DualDisplayToggle>
         <SlideDown>
-        {this.state.eventFormShown? <EventForm/> : <InfoForm/>}
+        {this.state.eventFormShown? <EventForm userName={this.state.userName} userID={this.state.userID}/> : <InfoForm userName={this.state.userName} userID={this.state.userID}/>}
         </SlideDown>
         </div>
     )

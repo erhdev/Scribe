@@ -6,11 +6,11 @@ const eventAPI = {
         get request for the readAll methods
         post request for the createEvent methods        
     */
-   readAllEvents: function() {
-       return axios.get('/api/event');
+   readAllEvents: function(user) {
+       return axios.get(`/api/event/${user}`);
    },
-   createEvent: function(eventData) {
-       return axios.post('/api/event', eventData);
+   createEvent: function(user, eventData) {
+       return axios.post(`/api/event/${user}`, eventData);
    },
    /*
         "/api/event/:id"

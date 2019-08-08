@@ -11,6 +11,7 @@ export function InputForm(props) {
             name="title"
             display="Title"
             placeholder="The Party Talks to the King"
+            type={props.type}
             />
           </ContentTile>
           <ContentTile>
@@ -20,6 +21,7 @@ export function InputForm(props) {
             name="body" 
             display="Description"
             placeholder="What else do you need to know about the event?"
+            type={props.type}
             />
           </ContentTile>
     </div>)

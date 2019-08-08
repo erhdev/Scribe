@@ -8,7 +8,7 @@ const router = require("express").Router();
 const timelineController = require("../../controller/timelineController");
 
 // Matches with "/api/timeline"
-router.route("/")
+router.route("/:user")
   .get(timelineController.readAll)
   .post(timelineController.createTimeline);
 

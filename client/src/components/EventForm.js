@@ -16,6 +16,8 @@ class EventForm extends React.Component {
     this.toggleInfo = this.toggleInfo.bind(this);
     this.clearForm = this.clearForm.bind(this)
     this.state = {
+      userName: this.props.userName,
+      userID: this.props.userID,
       isLoading: true,
       infoToggled: false,
       events: [],
@@ -24,7 +26,8 @@ class EventForm extends React.Component {
       body: "",
       assigned: false,
       mutualExclusives: [],
-      assocInfo: []
+      assocInfo: [],
+      noGo: false
     };
   };
   componentDidMount() {
@@ -38,8 +41,9 @@ class EventForm extends React.Component {
     this.loadInfo();
   };
   loadEvents() {
-    eventAPI.readAllEvents()
+    eventAPI.readAllEvents(this.state.userName)
       .then((results) => {
+        console.log('going trough')
         results.data.reverse();
         this.setState({ events: results.data })
         console.log(this.state.events)
@@ -47,7 +51,7 @@ class EventForm extends React.Component {
       .catch(err => console.log(err));
   };
   loadInfo() {
-    infoAPI.readAllInfo()
+    infoAPI.readAllInfo(this.state.userName)
       .then((results) => {
         results.data.reverse();
         this.setState({ info: results.data })
@@ -84,7 +88,7 @@ class EventForm extends React.Component {
     else{
     this.setState({noGo: false})
     eventAPI.createEvent(
-      eventData
+      this.state.userName, eventData
     )
       .then(this.loadEvents())
       .catch(err => console.log(err));
@@ -169,6 +173,7 @@ class EventForm extends React.Component {
             title={this.state.title}
             body={this.state.body}
             onChange={this.handleInputChange}
+            type="text"
           />
             <br></br>
             <DualDisplayToggle
