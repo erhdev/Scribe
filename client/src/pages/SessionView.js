@@ -18,18 +18,18 @@ class SessionView extends React.Component {
             title:"",
             body:"",
             events: [],
-            info: [], 
+            info: [],
             session: {},
             actives: [
                 {
                     name: "events",
                     classNames: "subtitle is-4 is-active",
-                    
+
                 },
                 {
                     name: "info",
                     classNames: "subtitle is-4",
-                    
+
                 },
                 {
                     name: "session stats",
@@ -39,10 +39,10 @@ class SessionView extends React.Component {
                     name: "player stats",
                     classNames: "subtitle is-4"
                 }
-            ]       
+            ]
         }
     }
-   async componentDidMount() {
+    async componentDidMount() {
         await this.loadEvents();
         await this.loadInfo();
         //await this.loadSession();
@@ -54,8 +54,8 @@ class SessionView extends React.Component {
         }
         timelineAPI.createTimeline(this.state.userName, timelineData).then(result => {
             console.log(result)
-            this.setState({session: result.data})
-        }); 
+            this.setState({ session: result.data })
+        });
     }
     loadEvents() {
         eventAPI.readAllEvents(this.state.userName)
@@ -87,42 +87,41 @@ class SessionView extends React.Component {
                 console.log(newData)
             }
         }
-        this.setState({actives : newData})
+        this.setState({ actives: newData })
     }
     handleInputChange = event => {
         const { name, value } = event.target;
         this.setState({
-          [name]: value
+            [name]: value
         });
-      };
+    };
     eventBlockOnClick = event => {
-    let datatag = event.currentTarget.dataset.tag
-    let events = this.state.events
-    let foundEvent = events.find(event => datatag === event._id)
-    console.log(foundEvent)
-    delete foundEvent.clicked;
-    foundEvent.assigned = true;
-    async function pushThenRead() {
-        await eventAPI.pushEvent(datatag, this.state.session._id, foundEvent).then(result => console.log(result))
-        timelineAPI.readTimeline(this.state.session._id).then(result => 
-     this.setState({session: result.data}))
-     console.log(this.state.session)
-    }
-    pushThenRead = pushThenRead.bind(this)
-    pushThenRead()
+        let datatag = event.currentTarget.dataset.tag
+        let events = this.state.events
+        let foundEvent = events.find(event => datatag === event._id)
+        console.log(foundEvent)
+        delete foundEvent.clicked;
+        foundEvent.assigned = true;
+        async function pushThenRead() {
+            await eventAPI.pushEvent(datatag, this.state.session._id, foundEvent).then(result => console.log(result))
+            timelineAPI.readTimeline(this.state.session._id).then(result =>
+                this.setState({ session: result.data }))
+            console.log(this.state.session)
+        }
+        pushThenRead = pushThenRead.bind(this)
+        pushThenRead()
     }
     render() {
         let seshEvents = this.state.session.events;
         console.log(seshEvents)
         let seshList;
         if (seshEvents) {
-          seshList = //seshEvents.map(event => <div>{event.title}</div>)
-          <DataList fullDisplay data={seshEvents} alreadyLogged = {[]} />
+            seshList = //seshEvents.map(event => <div>{event.title}</div>)
+                <DataList fullDisplay data={seshEvents} alreadyLogged={[]} />
         }
         let linkData = this.state.actives;
-        linkData[0].component = <DataList setting="buttons" data={this.state.events} alreadyLogged={[]} onClick={this.eventBlockOnClick}/>;
+        linkData[0].component = <DataList setting="buttons" data={this.state.events} alreadyLogged={[]} onClick={this.eventBlockOnClick} />;
         linkData[1].component = <DataList setting="buttons" data={this.state.info} alreadyLogged={[]} />;
-
         let sessionInitiated = this.state.session.name?  <DisplayPanel
         name={"data"}
         onClick={this.panelLinkOnClick}
@@ -133,8 +132,10 @@ class SessionView extends React.Component {
         </div>
         return (
             <div className="container">
+               {seshList}
             {sessionInitiated}
-                 {seshList}
+            
+
 
             </div>
         )
