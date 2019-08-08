@@ -18,7 +18,7 @@ if (process.env.NODE_ENV === "production") {
    connect to database
 */
 const mongoose = require("mongoose");
-mongoose.connect(process.env.MONGODB_URI || "mongodb://localhost:27017/scribe", { useNewUrlParser: true });
+mongoose.connect(process.env.MONGODB_URI || "mongodb://demotime1:demotime1@ds353007.mlab.com:53007/heroku_q9klf87d", { useNewUrlParser: true });
 
 /*
   listen for pings on the routes defined in the routes folder
