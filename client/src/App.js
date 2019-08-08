@@ -5,10 +5,10 @@ import { BrowserRouter as Router, Route, Link } from "react-router-dom";
 import Dashboard from "./pages/Dashboard";
 import Login from "./pages/Login";
 import SessionView from "./pages/SessionView";
-import CreationForm from "./components/EventForm"
-import EventForm from './components/EventForm';
+import CreationForm from "./pages/CreationForm"
 
-const playerQuotes = ["'We have to split the party. It's the only way.'", "Did you know? Lorem ipsum" ]
+
+const playerQuotes = [`"We have to split the party. It's the only way."`, "Did you know? Lorem ipsum", `"Folks, we've got problems. The shopkeepers have unionized."`, `"I have never lied in game, except for the times when it benefitted me to do so."` ]
 function App() {
   return (
     <Router>
@@ -41,7 +41,7 @@ function App() {
       </div>
       <Route exact path="/home" render={() => <Dashboard />} />
       <Route exact path="/session" render={() => <SessionView />} />
-      <Route exact path="/create" render={() => <EventForm />} />
+      <Route exact path="/create" render={() => <CreationForm />} />
       <footer className="footer">
         <div className="content has-text-centered">
           <p className={'title is-5'}>

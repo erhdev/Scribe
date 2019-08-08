@@ -19,21 +19,23 @@ class AccordionItem extends React.Component {
         }
         }
     }
-    render ()   {     
-        let foldedDown =   
+    render ()   { 
+        let passedBody = (typeof this.props.children=== null)? null : <div> <p className={`quick-underline`}>Associated Info:</p>
+        <DataList regular data={this.props.children} alreadyLogged={[]} additionalClassNames={` push-right`}
+        /> </div>    
+        let foldedDown =  
         <SlideDown className={`fold-down`}>
         {this.state.foldDownShown ? 
             <div><p>{this.props.body}</p>
-            <p className={`quick-underline`}>Associated Info:</p>
-            <DataList regular data={this.props.children} alreadyLogged={[]} additionalClassNames={` push-right`}
-            />
+            {passedBody}
             </div>
             : 
             null}
         </SlideDown>
+        
         return (
         <article
-            className={`accordion has-text-centered ${this.props.additionalClassNames}`}
+            className={`accordion column has-text-centered ${this.props.additionalClassNames}`}
             data-tag={this.props._id}
             key={this.props._id}
             onClick={this.props.onClick}>

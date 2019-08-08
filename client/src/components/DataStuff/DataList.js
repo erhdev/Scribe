@@ -82,16 +82,9 @@ export class DataList extends React.Component {
         let dataItems3 = dataItems.splice(0, dataItems.length);
         const dataFound =
             <div>
-                <ContentTile
-                    children={<div className={'columns'}>{dataItems1}</div>}
-                />
-                <ContentTile
-                    children={<div className={'columns'}>{dataItems2}</div>}
-                />
-                <ContentTile
-
-                    children={<div className={'columns'}>{dataItems3}</div>}
-                />
+                <div className={'columns'}>{dataItems1}</div>
+                <div className={'columns'}>{dataItems2}</div>
+                <div className={'columns'}>{dataItems3}</div>
             </div>
         return dataFound;
     }

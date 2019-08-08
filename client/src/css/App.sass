@@ -1,11 +1,19 @@
 $modal-content-width: 90%;
 $base-color: rgb(48, 51, 58)
 $button-width: 50%;
+$column-gap: 0.75rem
 $title-color: rgb(143, 188, 205);
 $link-color: #e4e7eb;
 $panel-item-border: 0px solid $title-color;
 $link-active: #4073b8;
 $footer-background-color: $base-color
+$label-color: $title-color
+$button-color: white
+$button-background-color: $title-color
+.label
+    border-left: 2px solid $title-color
+    padding-left: 5px
+    margin-top: 2px
 .push-right
     margin-top: 2%
     margin-left: 30%
@@ -18,7 +26,7 @@ $footer-background-color: $base-color
 .accordion
     padding-right: 10px
 .columns
-    padding-bottom: 5%
+     padding-bottom: 1%
 .panel-item
     border-left: 2px solid $link-active
     border-right: 2px solid $link-active
@@ -47,11 +55,22 @@ $footer-background-color: $base-color
                         animation: bg-fade 1s 1 
                         border-radius: 3px
 .column
-
     .subtitle
         color: $link-color
         &:hover
-
+.event-form-item
+             border-left: 2px solid $link-active
+             border-right: 2px solid $link-active
+             border-radius: 10px
+             padding: 0px 10px 0px
+             color: $link-color
+             background-color: rgba(0, 0, 0, 0.1)
+             &:hover
+             border-top: 1px solid #4073b8
+             border-bottom: 1px solid #4073b8
+.level 
+    background-color: $base-color
+    padding-top: 2%
 body
     background-color: $base-color
     height: 100vh
