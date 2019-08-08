@@ -10,7 +10,9 @@ app.use(express.json());
 
 // static assets on LOCK
 //app.use(express.static("test"))
-
+if (process.env.NODE_ENV === "production") {
+  app.use(express.static("client/build"));
+}
 /* 
    require mongoose,
    connect to database
